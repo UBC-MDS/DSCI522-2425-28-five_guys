@@ -1,0 +1,17 @@
+name: dsci522
+channels:
+  - conda-forge
+dependencies:
+  - numpy
+  - pandas
+  - python=3.9
+  - jupyterlab
+  - jupyterlab-git
+  - jupyterlab-spellchecker
+  - scikit-learn
+  - altair
+  - vegafusion==1.6.9
+  - vega_datasets
+  - vl-convert-python
+  - conda-lock
+prefix: /Users/dhruvgarg/miniforge3/envs/dsci522
