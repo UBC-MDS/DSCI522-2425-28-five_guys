@@ -4,16 +4,16 @@
 
 This data analysis project is about the prediction of rental bikes in the Metro city of Seoul.
 
-# About The Project
+## About The Project
 
 Currently Rental bikes are introduced in many urban cities for the enhancement of mobility comfort. It is important to make the rental bike available and accessible to the public at the right time as it lessens the waiting time. Eventually, providing the city with a stable supply of rental bikes becomes a major concern. The crucial part is the prediction of bike count required at each hour for the stable supply of rental bikes.
 
-# Report
+## Report
 
 The comprehensive report and the analysis of the Seoul Bike Share Prediction can be found here
 
 
-# Usage
+## Usage
 
 To run this project, install the virtual environment from the root of this repository, and run below command:
 
@@ -31,19 +31,19 @@ Navigate to the project folder in jupyper lab and open the `rental_bike_predicti
 
 After selecting the appropriate kernel, go under the "Kernel" menu and click "Restart Kernel and Run All Cells..."
 
-# Dependencies
+## Dependencies
 
 - `conda` (version 24.9.1 or higher)
 - `conda-lock` (version 2.5.7 or higher)
 - `jupyperlab` (version 4.2.4 0r higher)
 - Python and other packages listed in environment.yml file
 
-# Licence
+## Licence
 
 The Seoul Bike Share Predictor software code contained in this project are licensed under MIT license. See the [licence file](https://github.com/UBC-MDS/DSCI522-2425-28-five_guys/blob/main/LICENSE) here for more information. The project report is licensed under [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/) License. See the license file for more information. For proper referencing, when re-using any part of this code and/or report, please include the link to this webpage.
 
 
-# References
+## References
 
 Dua, Dheeru, and Casey Graff. 2017. “UCI Machine Learning Repository.” University of California, Irvine, School of Information; Computer Sciences. (https://archive.ics.uci.edu/).
 
