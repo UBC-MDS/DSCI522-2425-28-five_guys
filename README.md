@@ -1,3 +1,3 @@
 # DSCI522-2425-28-five_guys
-
-shawn xiao hu updated 
+## Seoul bike share predictor
+- Author: Elaine Chu, Lukman Lateef, Dhruv Garg, Eugene You, Shawn Xiao Hu
