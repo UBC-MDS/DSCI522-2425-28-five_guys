@@ -17,11 +17,15 @@ The comprehensive report and the analysis of the Seoul Bike Share Prediction can
 
 To run this project, install the virtual environment from the root of this repository, and run below command:
 
-`conda-lock install --name seoul-bike-share-predictor conda-lock.yml`
+```
+conda-lock install --name seoul-bike-share-predictor conda-lock.yml
+```
 
 Instantiate jupyter lab from the root of this repository to run the analysis, run below command to begin:
 
-`jupyter lab`
+```
+jupyter lab
+```
 
 Navigate to the project folder in jupyper lab and open the `rental_bike_prediction.ipynb` notebook and under Select Kernel choose "Python [conda env:seoul-bike-share-predictor]".
 
