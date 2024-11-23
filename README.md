@@ -8,9 +8,11 @@ This data analysis project is about the prediction of rental bikes in the Metro 
 
 Currently Rental bikes are introduced in many urban cities for the enhancement of mobility comfort. It is important to make the rental bike available and accessible to the public at the right time as it lessens the waiting time. Eventually, providing the city with a stable supply of rental bikes becomes a major concern. The crucial part is the prediction of bike count required at each hour for the stable supply of rental bikes.
 
+The data set that was used in this project is dataset contains count of public bicycles rented per hour in the Seoul Bike Sharing System, with corresponding weather data and holiday information created by Sathishkumar V E, Jangwoo Park, Yongyun Cho, "Using data mining techniques for bike sharing demand prediction in Metropolitan city", Computer Communications. It was sourced from the UCI Machine Learning Repository (Dua and Graff 2017) and can be found [here](https://archive.ics.uci.edu/dataset/560/seoul+bike+sharing+demand).
+
 ## Report
 
-The comprehensive report and the analysis of the Seoul Bike Share Prediction can be found here
+The comprehensive report and the analysis of the Seoul Bike Share Prediction can be found [here](https://github.com/UBC-MDS/DSCI522-2425-28-five_guys/blob/main/rental_bike_prediction.ipynb)
 
 
 ## Usage
