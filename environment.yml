@@ -2,16 +2,17 @@ name: dsci522
 channels:
   - conda-forge
 dependencies:
-  - numpy
-  - pandas
-  - python=3.9
+  - altair
+  - conda-lock
   - jupyterlab
   - jupyterlab-git
   - jupyterlab-spellchecker
+  - numpy
+  - pandas
+  - python=3.9
   - scikit-learn
-  - altair
-  - vegafusion==1.6.9
   - vega_datasets
+  - vegafusion==1.6.9
   - vl-convert-python
-  - conda-lock
+  - matplotlib
 prefix: /Users/dhruvgarg/miniforge3/envs/dsci522
