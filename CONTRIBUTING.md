@@ -1,4 +1,4 @@
-# Contributing to Seoul Bike Share Predition Project
+# Contributing to Seoul Bike Share Prediction Project
 
 👍🎉 Thank you for taking the time to contribute to our project! 🎉👍
 
@@ -12,7 +12,7 @@ This project and everyone participating in it is governed by the our [Code of Co
 
 Before you make a substantial pull request, you should always file an issue and make sure someone from the team agrees that it is a problem. If you've found a bug, create an associated issue and submit it for the team's awareness.
 
-## How To Contribute Code to Seoul Bike Share Predition Project
+## How To Contribute Code to Seoul Bike Share Prediction Project
 
 ### Setting Up Your Environment
 
