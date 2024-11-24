@@ -4,7 +4,7 @@
 
 Copyright (c) 2024
 
-This report (source contained in the [`DSCI522-2425-28-five_guys` repository](https://github.com/UBC-MDS/DSCI522-2425-28-five_guys)) is made available under the **Attribution-NonCommercial-ShareAlike 4.0 International** ([CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)). 
+This report (source contained in the [`DSCI522-2425-28-rental-bike-prediction` repository](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction)) is made available under the **Attribution-NonCommercial-ShareAlike 4.0 International** ([CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)). 
 
 This is a human-readable summary of (and not a substitute for) the [license](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
 
@@ -33,7 +33,7 @@ No warranties are given. The license may not give you all of the permissions nec
 
 MIT License
 
-Copyright (c) 2024 DSCI522-2425-28-five_guys.
+Copyright (c) 2024 DSCI522-2425-28-rental-bike-prediction.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

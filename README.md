@@ -12,7 +12,7 @@ The data set that was used in this project is dataset contains count of public b
 
 ## Report
 
-The comprehensive report and the analysis of the Seoul Bike Share Prediction can be found [here](https://github.com/UBC-MDS/DSCI522-2425-28-five_guys/blob/main/rental_bike_prediction.ipynb)
+The comprehensive report and the analysis of the Seoul Bike Share Prediction can be found [here](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/blob/main/rental_bike_prediction.ipynb)
 
 
 ## Usage
@@ -42,7 +42,7 @@ After selecting the appropriate kernel, go under the "Kernel" menu and click "Re
 
 ## Licence
 
-The Seoul Bike Share Predictor software code contained in this project are licensed under MIT license. See the [licence file](https://github.com/UBC-MDS/DSCI522-2425-28-five_guys/blob/main/LICENSE) here for more information. The project report is licensed under [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/) License. See the license file for more information. For proper referencing, when re-using any part of this code and/or report, please include the link to this webpage.
+The Seoul Bike Share Predictor software code contained in this project are licensed under MIT license. See the [licence file](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/blob/main/LICENSE) here for more information. The project report is licensed under [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/) License. See the license file for more information. For proper referencing, when re-using any part of this code and/or report, please include the link to this webpage.
 
 
 ## References
