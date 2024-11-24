@@ -6,7 +6,7 @@ The following is a set of guidelines for contributing to Seoul Bike Share Predic
 
 ## Code of Conduct
 
-This project and everyone participating in it is governed by the our [Code of Conduct](https://github.com/UBC-MDS/DSCI522-2425-28-five_guys/blob/lukman-doc-files/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to daniel.chen@stat.ubc.ca.
+This project and everyone participating in it is governed by the our [Code of Conduct](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/blob/main/CODE_OF_CONDUCT.md).
 
 ## Prerequisites
 
@@ -18,7 +18,7 @@ Before you make a substantial pull request, you should always file an issue and 
 
 Clone the project repository to you local machine. 
 ```
-git clone git@github.com:UBC-MDS/DSCI522-2425-28-five_guys.git
+git clone git@github.com:UBC-MDS/DSCI522-2425-28-rental-bike-prediction.git
 ```
 
 ### Creating a Branch
@@ -44,8 +44,7 @@ git commit -m "Some descriptive message about your change"
 git push origin <your-branch-name>
 ```
 
-You will then need to submit a pull request (PR) on GitHub asking to merge your example branch into the main [DSCI522-2425-28-five_guys repository](https://github.com/UBC-MDS/DSCI522-2425-28-five_guys
-). For details on creating a PR see GitHub documentation [Creating a pull request](https://help.github.com/en/articles/creating-a-pull-request). You can add more details about your example in the PR such as motivation for the example or why you thought it would be a good addition. You will get feed back in the PR discussion if anything needs to be changed. To make changes continue to push commits made in your local example branch to origin and they will be automatically shown in the PR.
+You will then need to submit a pull request (PR) on GitHub asking to merge your example branch into the main [DSCI522-2425-28-rental-bike-prediction repository](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction). For details on creating a PR see GitHub documentation [Creating a pull request](https://help.github.com/en/articles/creating-a-pull-request). You can add more details about your example in the PR such as motivation for the example or why you thought it would be a good addition. You will get feed back in the PR discussion if anything needs to be changed. To make changes continue to push commits made in your local example branch to origin and they will be automatically shown in the PR.
 
 Hopefully your PR will be answered in a timely manner and your contribution will help others in the future.
 
