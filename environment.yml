@@ -1,4 +1,4 @@
-name: conda-lock-522
+name: rental-bike-prediction
 channels:
   - conda-forge
 dependencies:
@@ -273,4 +273,3 @@ dependencies:
   - zeromq=4.3.5
   - zipp=3.21.0
   - zstd=1.5.6
-
