@@ -19,3 +19,4 @@ dependencies:
   - pip
   - pip:
       - deepchecks==0.18.1
+      - altair-ally==0.1.1
