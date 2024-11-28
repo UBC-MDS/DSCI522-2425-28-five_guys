@@ -273,4 +273,4 @@ dependencies:
   - zeromq=4.3.5
   - zipp=3.21.0
   - zstd=1.5.6
-prefix: /Users/la325/miniforge3/envs/conda-lock-522
+
