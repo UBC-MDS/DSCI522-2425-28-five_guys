@@ -12,7 +12,7 @@ The data set that was used in this project is dataset contains count of public b
 
 ## Report
 
-The comprehensive report and the analysis of the Seoul Bike Share Prediction can be found [here](index.html)
+The comprehensive report and the analysis of the Seoul Bike Share Prediction can be found [here](https://ubc-mds.github.io/DSCI522-2425-28-rental-bike-prediction/index.html).
 
 
 ## Usage
@@ -61,7 +61,7 @@ At the moment, you need to manually copy the code into the container to perform 
 - `conda` (version 24.9.1 or higher)
 - `conda-lock` (version 2.5.7 or higher)
 - `jupyterlab` (version 4.2.4 0r higher)
-- Python and other packages listed in [Dependencies File](environment.yml)
+- `Python` and other packages listed in [Environment File](environment.yml)
 
 
 ## License
