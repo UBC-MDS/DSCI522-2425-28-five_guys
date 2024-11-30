@@ -12,7 +12,7 @@ The data set that was used in this project is dataset contains count of public b
 
 ## Report
 
-The comprehensive report and the analysis of the Seoul Bike Share Prediction can be found [here](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/blob/main/rental_bike_prediction.ipynb)
+The comprehensive report and the analysis of the Seoul Bike Share Prediction can be found [here](index.html)
 
 
 ## Usage
@@ -39,7 +39,8 @@ Navigate to the project folder in jupyper lab and open the `rental_bike_predicti
 
 After selecting the appropriate kernel, go under the "Kernel" menu and click "Restart Kernel and Run All Cells..."
 
-(Optional) If you cannot use the `Python [conda env:seoul-bike-share-predictor]` kernel, please run the following code:
+##### (Optional)
+ If you cannot use the `Python [conda env:seoul-bike-share-predictor]` kernel, please run the following code:
 
 ```bash
 conda install nb_conda_kernels
@@ -59,10 +60,11 @@ At the moment, you need to manually copy the code into the container to perform 
 
 - `conda` (version 24.9.1 or higher)
 - `conda-lock` (version 2.5.7 or higher)
-- `jupyperlab` (version 4.2.4 0r higher)
-- Python and other packages listed in environment.yml file
+- `jupyterlab` (version 4.2.4 0r higher)
+- Python and other packages listed in [Dependencies File](environment.yml)
 
-## Licence
+
+## License
 
 The Seoul Bike Share Predictor software code contained in this project are licensed under MIT license. See the [licence file](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/blob/main/LICENSE) here for more information. The project report is licensed under [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/) License. See the license file for more information. For proper referencing, when re-using any part of this code and/or report, please include the link to this webpage.
 
