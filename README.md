@@ -60,7 +60,7 @@ At the moment, you need to manually copy the code into the container to perform 
 
 - `conda` (version 24.9.1 or higher)
 - `conda-lock` (version 2.5.7 or higher)
-- `jupyperlab` (version 4.2.4 0r higher)
+- `jupyterlab` (version 4.2.4 0r higher)
 - Python and other packages listed in [Dependencies File](environment.yml)
 
 
