@@ -23,6 +23,12 @@ To run this project, install the virtual environment from the root of this repos
 conda-lock install --name seoul-bike-share-predictor conda-lock.yml
 ```
 
+Then activate the environment using:
+
+```bash
+conda activate seoul-bike-share-predictor
+```
+
 Instantiate jupyter lab from the root of this repository to run the analysis, run below command to begin:
 
 ```
@@ -32,6 +38,22 @@ jupyter lab
 Navigate to the project folder in jupyper lab and open the `rental_bike_prediction.ipynb` notebook and under Select Kernel choose "Python [conda env:seoul-bike-share-predictor]".
 
 After selecting the appropriate kernel, go under the "Kernel" menu and click "Restart Kernel and Run All Cells..."
+
+(Optional) If you cannot use the `Python [conda env:seoul-bike-share-predictor]` kernel, please run the following code:
+
+```bash
+conda install nb_conda_kernels
+```
+
+## Using Docker (Optional)
+Docker is used to create reproducible, shareable, and shippable computing environments for our analysis. This is particularly useful if you encounter issues installing the required packages or if you prefer not to install them on your local computer.
+To use Docker, visit their website [here](https://www.docker.com/), create an account, and download and install a version that is compatible with your computer. 
+Once Docker is installed, ensure it is running. Navigate to the directory where you cloned our repository, and then run the following command in your terminal:
+```bash
+docker-compose up
+```
+While your Docker container is running, you may follow the instructions within it to run the analysis through it. Specifically, you want to copy the link that starts with "http://127.0.0.1:8888/lab?token=..." your browser to access a Jupyter Lab instance running on the Docker container. This instance has all the required dependencies pre-installed.
+At the moment, you need to manually copy the code into the container to perform the analysis. We are actively working on automating this process to make the analysis fully accessible through Docker. This update should be ready within the next two weeks.
 
 ## Dependencies
 
