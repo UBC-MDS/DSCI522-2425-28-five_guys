@@ -11,6 +11,9 @@ import altair_ally as aly
 @click.option('--table_to', type=str, help="Path to directory where the tables will be written to")
 
 def main(processed_training_data, plot_to, table_to):
+    '''
+    This script reads in the processed data and creates the tables and plots for EDA.
+    '''
     df = pd.read_csv(processed_training_data)
 
     # Check for missing values
@@ -65,10 +68,10 @@ def main(processed_training_data, plot_to, table_to):
     
     # plot scatterplot of bike count vs temperature for different seasons
     season_temp_chart = alt.Chart(df).mark_circle().encode(
-        alt.X('Temperature(°C):Q', title='Temperature (°C)'),
+        alt.X('Temperature:Q', title='Temperature (°C)'),
         alt.Y('Rented Bike Count:Q', title='Rented Bike Count'),
         color='Seasons:N',
-        tooltip=['Temperature(°C)', 'Rented Bike Count', 'Seasons']
+        tooltip=['Temperature', 'Rented Bike Count', 'Seasons']
         ).properties(
             title='Number of bike rentals at different temperatures for different seasons',
             width=600,
