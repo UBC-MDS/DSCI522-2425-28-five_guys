@@ -6,9 +6,9 @@ import pandas as pd
 import altair_ally as aly
 
 @click.command()
-@click.option('--processed-training-data', type=str, help="Path to processed training data")
-@click.option('--plot-to', type=str, help="Path to directory where the plots will be written to")
-@click.option('--table-to', type=str, help="Path to directory where the tables will be written to")
+@click.option('--processed_training_data', type=str, help="Path to processed training data")
+@click.option('--plot_to', type=str, help="Path to directory where the plots will be written to")
+@click.option('--table_to', type=str, help="Path to directory where the tables will be written to")
 
 def main(processed_training_data, plot_to, table_to):
     df = pd.read_csv(processed_training_data)
