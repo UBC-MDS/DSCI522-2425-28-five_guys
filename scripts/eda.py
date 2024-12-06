@@ -1,5 +1,5 @@
 # eda.py
-
+import os
 import click
 import altair as alt
 import pandas as pd
@@ -96,7 +96,7 @@ def main(processed_training_data, plot_to, table_to):
     
     # Plot hourly bike graph per season
     hourly_season_chart = alt.Chart(df).mark_line().encode(
-        x='Hour',
+        x='Hour:O',
         y='mean(Rented Bike Count)',
         color='Seasons',
         tooltip=['Hour', 'mean(Rented Bike Count)']
