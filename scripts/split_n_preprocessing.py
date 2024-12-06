@@ -72,13 +72,6 @@ def main(raw_data, data_to, preprocessor_to, seed):
 
     pickle.dump(bike_preprocessor, open(os.path.join(preprocessor_to, "bike_preprocessor.pickle"), "wb"))
 
-    bike_preprocessor.fit(bike_train)
-    scaled_bike_train = bike_preprocessor.transform(bike_train)
-    scaled_bike_test = bike_preprocessor.transform(bike_test)
-
-    scaled_bike_train.to_csv(os.path.join(data_to, "scaled_bike_train.csv"), index=False)
-    scaled_bike_test.to_csv(os.path.join(data_to, "scaled_bike_test.csv"), index=False)
-
 
 if __name__ == '__main__':
     main()

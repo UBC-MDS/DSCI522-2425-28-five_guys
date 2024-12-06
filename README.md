@@ -81,7 +81,7 @@ python scripts/fit_rental_bike_prediction.py \
     --seed=522
 
 python scripts/evaluate_rental_bike_prediction.py \
-    --test-data=data/processed/bike_train.csv \
+    --test-data=data/processed/bike_test.csv \
     --pipeline-from-ridge=results/models/ridge_pipeline.pickle \
     --pipeline-from-tree=results/models/tree_pipeline.pickle \
     --results-to=results/tables \
