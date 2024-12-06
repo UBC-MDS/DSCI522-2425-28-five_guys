@@ -2,18 +2,15 @@
 
 import click
 import os
-import altair as alt
 import numpy as np
 import pandas as pd
 import pickle
 from sklearn import set_config
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import make_pipeline
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.linear_model import Ridge
 from sklearn.tree import DecisionTreeRegressor
-from sklearn.metrics import fbeta_score, make_scorer
-from joblib import dump
+
 
 @click.command()
 @click.option('--training-data', type=str, help="Path to training data")

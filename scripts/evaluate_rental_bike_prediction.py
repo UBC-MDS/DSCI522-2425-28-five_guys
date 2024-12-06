@@ -17,7 +17,8 @@ from sklearn.metrics import PredictionErrorDisplay
 @click.option('--pipeline-from-tree', type=str, help="Path to directory where the tree fit pipeline object lives")
 @click.option('--results-to', type=str, help="Path to directory where the plot will be written to")
 @click.option('--seed', type=int, help="Random seed", default=123)
-def main(scaled_test_data, columns_to_drop, pipeline_from_ridge,pipeline_from_tree,results_to, seed):
+@click.option('--plot_to', type=str, help="Path to directory where the plots will be written to")
+def main(scaled_test_data, plot_to, pipeline_from_ridge,pipeline_from_tree,results_to, seed):
     '''Evaluates the rental bike regressor on the test data 
     and saves the evaluation results.'''
     np.random.seed(seed)
@@ -48,7 +49,7 @@ def main(scaled_test_data, columns_to_drop, pipeline_from_ridge,pipeline_from_tr
     test_scores.to_csv(os.path.join(results_to, "test_scores.csv"), index=False)
 
     # Plotting scatter plot for predicted value vs actual value on test set
-    PredictionErrorDisplay.from_estimator(
+    plot_pred_ridge = PredictionErrorDisplay.from_estimator(
         rental_bike_fit_ridge,
         rental_bike_test.drop("Rented Bike Count", axis=1),
         rental_bike_test["Rented Bike Count"],
@@ -56,14 +57,22 @@ def main(scaled_test_data, columns_to_drop, pipeline_from_ridge,pipeline_from_tr
         scatter_kwargs={'alpha': 0.12, 's': 10}
     )
 
+    plot_pred_ridge.save(os.path.join(plot_to, "prediction_error_ridge.png"),
+                          scale_factor=2.0)
+    
+
     # Plotting scatter plot for predicted value vs actual value on test set
-    PredictionErrorDisplay.from_estimator(
+    plot_pred_tree = PredictionErrorDisplay.from_estimator(
         rental_bike_fit_tree,
         rental_bike_test.drop("Rented Bike Count", axis=1),
         rental_bike_test["Rented Bike Count"],
         kind='actual_vs_predicted',
         scatter_kwargs={'alpha': 0.12, 's': 10}
     )
+
+    plot_pred_tree.save(os.path.join(plot_to, "prediction_error_tree.png"),
+                          scale_factor=2.0)
+    
 
 
 if __name__ == '__main__':
