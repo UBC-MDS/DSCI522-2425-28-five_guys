@@ -49,12 +49,46 @@ conda install nb_conda_kernels
 ## Using Docker (Optional)
 Docker is used to create reproducible, shareable, and shippable computing environments for our analysis. This is particularly useful if you encounter issues installing the required packages or if you prefer not to install them on your local computer.
 To use Docker, visit their website [here](https://www.docker.com/), create an account, and download and install a version that is compatible with your computer. 
-Once Docker is installed, ensure it is running. Navigate to the directory where you cloned our repository, and then run the following command in your terminal:
+Once Docker is installed, ensure it is running. 
+1) Navigate to the directory where you cloned our repository, and then run the following command in your terminal:
 ```bash
 docker-compose up
 ```
-While your Docker container is running, you may follow the instructions within it to run the analysis through it. Specifically, you want to copy the link that starts with "http://127.0.0.1:8888/lab?token=..." your browser to access a Jupyter Lab instance running on the Docker container. This instance has all the required dependencies pre-installed.
-At the moment, you need to manually copy the code into the container to perform the analysis. We are actively working on automating this process to make the analysis fully accessible through Docker. This update should be ready within the next two weeks.
+
+2) While your Docker container is running, you may follow the instructions within it to run the analysis through it. Specifically, you want to copy the link that starts with "http://127.0.0.1:8888/lab?token=..." your browser to access a Jupyter Lab instance running on the Docker container. This instance has all the required dependencies pre-installed.
+
+3) To run the analysis, open a terminal in the jupyter lab and run the following commands:
+
+```bash
+python scripts/data_pipeline.py \
+    --url="https://archive.ics.uci.edu/static/public/560/seoul+bike+sharing+demand.zip" \
+    --write_to=data/raw
+
+python scripts/split_n_preprocessing.py \
+    --raw_data=data/raw/SeoulBikeData.csv \
+    --data_to=data/processed \
+    --preprocessor_to=results/models \
+    --seed=522
+	
+python scripts/eda.py \
+    --processed_training_data=data/processed/bike_train.csv \ 
+    --plot_to=results/figures --table_to=results/tables
+
+python scripts/fit_rental_bike_prediction.py \
+    --training-data=data/processed/bike_train.csv \
+    --preprocessor=results/models/bike_preprocessor.pickle \
+    --pipeline-to=results/models \
+    --seed=522
+
+python scripts/evaluate_rental_bike_prediction.py \
+    --test-data=data/processed/bike_train.csv \
+    --pipeline-from-ridge=results/models/ridge_pipeline.pickle \
+    --pipeline-from-tree=results/models/tree_pipeline.pickle \
+    --results-to=results/tables \
+    --seed=522 \
+    --plot_to=results/figures
+```
+4) After running the analysis, to shut down the container and clean up its resources, press `Ctrl+C` in the terminal where the container was started, then run `docker compose rm`.
 
 ## Dependencies
 
