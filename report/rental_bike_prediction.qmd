@@ -74,19 +74,19 @@ Markdown(summary_stats.to_markdown(index = False))
 ```
 
 
-![Distribution of Rented Bike Count](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=60%}
+![Distribution of Rented Bike Count](../results/figures/rented_bike_count.png){#fig-rented-bike-count}
 
 
-![Average Rented Bike Count by Hour](../results/figures/hourly_rental_count.png){#fig-hourly-rental-count width=60%}
+![Average Rented Bike Count by Hour](../results/figures/hourly_rental_count.png){#fig-hourly-rental-count}
 
 
-![Average Rented Bike Count by Season](../results/figures/season_rental_count.png){#fig-season-rental-count width=60%}
+![Average Rented Bike Count by Season](../results/figures/season_rental_count.png){#fig-season-rental-count}
 
 
-![Number of bike rentals at different temperatures for different seasons](../results/figures/season_temp_count.png){#fig-season-temp-count width=60%}
+![Number of bike rentals at different temperatures for different seasons](../results/figures/season_temp_count.png){#fig-season-temp-count}
 
 
-![Summary distribution of bike rentals between holidays and non holidays.](../results/figures/holiday_dist.png){#fig-holiday_dist width=60%}
+![Summary distribution of bike rentals between holidays and non holidays.](../results/figures/holiday_dist.png){#fig-holiday_dist}
 
 
 ### 2. Data Preprocessing 
@@ -95,14 +95,12 @@ Markdown(summary_stats.to_markdown(index = False))
 Table 4. Overview of the training data set.
 
 
-
-Figure 6. Distribution of number of rented bikes.
-
-
-Figure 7. Mean number of bikes being rented at different time of the day.
+![Distribution of number of rented bikes.](../results/figures/rented_bike_count.png){#fig-rented-bike-count}
 
 
-Figure 8. Correlation plots for the different features in the training data set.
+![Mean number of bikes being rented at different time of the day.](../results/figures/season_hourly.png){#fig-season-hourly}
+
+![Correlation plots for the different features in the training data set.](../results/figures/corr_chart.png){#fig-corr_chart}
 
 ### 3. Modeling
 
