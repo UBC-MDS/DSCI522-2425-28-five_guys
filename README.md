@@ -20,7 +20,7 @@ The comprehensive report and the analysis of the Seoul Bike Share Prediction can
 To run this project, install the virtual environment from the root of this repository, and run below command:
 
 ```
-conda-lock install --name seoul-bike-share-predictor conda-lock.yml
+conda-lock install --name seoul-bike-share-predictor environments/conda-lock.yml
 ```
 
 Then activate the environment using:
