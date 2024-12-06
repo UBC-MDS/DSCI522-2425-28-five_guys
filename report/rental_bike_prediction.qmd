@@ -20,7 +20,6 @@ editor: source
 
 ```{python}
 import pandas as pd
-from IPython.display import Markdown, display
 import pickle
 ```
 
