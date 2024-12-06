@@ -1,0 +1,366 @@
+---
+title: Predicting bike-share program usage from weather conditions
+author: "Elaine Chu, Dhruv Garg, Shawn Xiao Hu, Lukman Lateef & Eugene You"
+date: "2024/12/05"
+jupyter: python3
+format: 
+    html:
+        toc: true
+        toc-depth: 2
+    pdf:
+        toc: true
+        toc-depth: 2
+bibliography: references.bib
+execute:
+  echo: false
+  warning: false
+editor: source
+---
+
+
+```{python}
+import pandas as pd
+from IPython.display import Markdown, display
+import pickle
+```
+
+# Summary
+
+In this analysis, we developed two regression model using the decision tree algorithm and the ridge regression algorithm to compare their ability to predict the number of bikes being rented out from a bike share program based on the weather conditions of the hour and general information about the day. After training the model, the model's performances were evaluated on an unseen data set, where the decision tree algorithm achieved a $R^2$ of 0.79 and the ridge regression algorithm obtained a $R^2$ of 0.68. The results indicates that the regression model was able to better capture the key factors influencing the number of bike rented within a reasonable range of accuracy. This makes it a practical tool for forecasting bike demand. By utilizing weather conditions and temporal features, this model can assist bike-sharing programs in optimizing resource allocation, ensuring bikes are available when needed, and improving overall service efficiency. 
+
+# Introduction
+
+Over the past 2 decades, a growing number of countries worldwide have introduced bike-sharing programs as an integral part of their urban transportation systems (Shaheen et al. 2013). These initiatives are often designed to address the “last mile” problem – a common challenge in public transit to get passengers from a transportation hub, like train stations and bus stops, to their final destination. By providing a sustainable, accessible, and cost-effective mode of transportation for short trips, bike-share programs have become a popular solution to close this gap (Shaheen et al. 2013).  
+
+The demand and usage of bike-share programs are known to be heavily influenced by the weather conditions (Eren and Uz 2020). Factors such as temperature, precipitation, humidity, and wind speed all have an affect the number of bikes being used at any given time. Understanding these relationships is crucial for the effective management of bike-share systems.
+
+In this study, we explore whether a machine learning algorithm can predict the usage of bike-share program. It is important to accurately predict usage of the bikes as it gives organizers the ability to plan ahead and make sure there is a stable supply of bikes to match the fluctuating demands. This ensures an efficient allocation of resources and ultimately improve the overall performance of the bike-share programs.
+
+# Methods
+
+## Data
+
+The data set used in this project is the Seoul bike sharing demand data set created by Dr Sathishkumar V.E., Dr Jangwoo Park, and Dr Yongyun Cho from Sunchon National University (Sathishkumar et al 2020a, 2020b). It was sourced from the UCI Machine Learning Repository (Sathishkumar et al 2020a, 2020b) and can be found [here](https://archive.ics.uci.edu/dataset/560/seoul+bike+sharing+demand). Each row in the data set represents the number of bikes being rented at a specific hour of a day, along with corresponding weather conditions (e.g. temperature, humidity, and rainfall), whether the day was a holiday, and if the bike share program was functioning that day.
+
+## Analysis
+
+We developed compared two regression model that predicts the number of bikes being rented out for a specific hour of the day one is built using the decision tree regressor algorithm another using the ridge regression algorithm. All variables, except for `dew point temp`, from the original data set was used to fit the model. The data was split into training and test set at a 70:30 ratio. The `Date` column from the original data set was split up into temporal features of `Year`, `Month`, `Day`, and `Weekday`. These features along with  `Hour` and `Seasons` will be treated as categorical features and will be encoded by One-hot encoding before fitting to the model. In addtion, features that indicated events (`Holiday`, `Functioning Day`) were transformed and treated so they can be treated as binary categorical features. All the other numeric features that were related to the weather will be scaled using standardization just before model fitting. For the decision regressor algorithm the hyperparameters `tree depth`, `minimum samples per split`, and `minimum sample per leaf` were optimized based on the $R^2$ score through a 5-fold cross-validation. For the ridge regression algorithm, the hyperparameter
+
+The Python programming language (Van Rossum and Drake 2009) and the following Python packages were used to perform the analysis: numpy (Harris et al. 2020), Pandas (McKinney 2010), altair (VanderPlas, 2018), vegafusion(Kruchten et al. 2022), scikit-learn (Pedregrosa et al. 2011). The code used to perform the analysis and create this report can be found here: https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction 
+
+# Results
+
+To identify which features may be useful to predict the number of bikes being used, we began with some exploratory exploratory data analysis (EDA) to better understand the data set's general structure and characteristics. We found that there were no missing values in the dataset, eliminating the need for any imputation or data cleaning related to missing data. The descriptions from the EDA shows the dataset includes both numerical and categorical variables (e.g., “Seasons,” “Holiday”), some of which may interact non-linearly with the target variable. 
+
+When plotting bike usage against features such as the hour of the day, seasonality, temperature, and holiday status, we noticed non-uniform patterns in their distribution with some categories have little overlap between each other. We observed that there is a spike in the number of bikes rented in summer seasons and also there is a spike in the morning and evening of each day observed. This suggests that these features might serve as strong predictors on bike usage. 
+
+We also plotted a correlation matrix between all the features, we found a strong correlation between temperature and dew point temperature. Given that dew point temperature values closely mirror those of temperature, we decided to drop dew point temperature from the model. The remaining features showed relatively weaker correlations, so we chose not to remove them as they may offer valueable information for predicting bike demand.
+
+
+### 1.6 EDA Analysis
+
+```{python}
+#| label: tbl-missing-values
+#| tbl-cap: Number of missing values in every column
+missing_values = pd.read_csv("../results/tables/missing_values.csv")
+Markdown(missing_values.to_markdown(index = False))
+```
+
+Table 2. Number of missing values in every column
+
+```{python}
+#| label: tbl-summary-stats
+#| tbl-cap: Summary statistics of each column 
+summary_stats = pd.read_csv("../results/tables/summary_stats.csv")
+Markdown(summary_stats.to_markdown(index = False))
+```
+
+Table 3. Summary statistics of each column 
+
+![Distribution of Rented Bike Count](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=60%}
+
+Figure 1. Distribution of Rented Bike Count
+
+```{python}
+hourly_avg_chart = alt.Chart(df).mark_line(point=True).encode(
+    x=alt.X('Hour:O', title='Hour of Day'),
+    y=alt.Y('mean(Rented Bike Count):Q', title='Average Rented Bike Count'),
+    tooltip=['Hour', 'mean(Rented Bike Count)']
+).properties(
+    title='Average Rented Bike Count by Hour',
+    width=700,
+    height=400
+)
+hourly_avg_chart
+```
+
+Figure 2. Average Rented Bike Count by Hour
+
+```{python}
+
+season_avg_chart = alt.Chart(df).mark_bar().encode(
+    x=alt.X('Seasons:O', title='Season'),
+    y=alt.Y('mean(Rented Bike Count):Q', title='Average Rented Bike Count'),
+    color='Seasons',
+    tooltip=['Seasons', 'mean(Rented Bike Count)']
+).properties(
+    title='Average Rented Bike Count by Season',
+    width=700,
+    height=400
+)
+season_avg_chart
+```
+
+Figure 3. Average Rented Bike Count by Season
+
+```{python}
+alt.Chart(df).mark_circle().encode(
+    alt.X('Temperature(°C):Q', title='Temperature (°C)'),
+    alt.Y('Rented Bike Count:Q', title='Rented Bike Count'),
+    color='Seasons:N',
+    tooltip=['Temperature(°C)', 'Rented Bike Count', 'Seasons']
+).properties(
+    title='Number of bike rentals at different temperatures for different seasons',
+    width=600,
+    height=400
+)
+```
+
+Figure 4. Number of bike rentals at different temperatures for different seasons 
+
+```{python}
+alt.Chart(df).mark_boxplot().encode(
+    alt.X('Holiday:N', title='Holiday'),
+    alt.Y('Rented Bike Count:Q', title='Rented Bike Count'),
+    color='Holiday:N',
+    tooltip=['Holiday', 'Rented Bike Count']
+).properties(
+    title='Summary distribution of bike rentals between holidays and non holidays',
+    width=600,
+    height=400
+)
+```
+
+Figure 5. Summary distribution of bike rentals between holidays and non holidays.
+
+### 2. Data Preprocessing 
+
+```{python}
+# Renaming the colums for the simplicity
+df = df.rename(columns={
+    'Temperature(°C)': 'Temperature',
+    'Humidity(%)': 'Humidity',
+    'Rainfall(mm)': 'Rainfall',
+    'Snowfall (cm)': 'Snowfall',
+    'Wind speed (m/s)': 'Wind speed',
+    'Visibility (10m)': 'Visibility',
+    'Solar Radiation (MJ/m2)': 'Radiation',
+    'Dew point temperature(°C)': 'Dew point temperature'})
+```
+
+```{python}
+# Convert the Date column in Datetime Dtype
+df['Date'] = pd.to_datetime(df['Date'], format='mixed')
+
+# Extract features from the Date column
+df['Year'] = df['Date'].dt.year
+df['Month'] = df['Date'].dt.month
+df['Day'] = df['Date'].dt.day
+df['Weekday'] = df['Date'].dt.weekday
+df = df.drop(['Date'], axis=1)  # Exclude unwanted columns
+
+# Convert to categorical
+# df['Hour'] = df['Hour'].astype(str)
+df['Seasons'] = df['Seasons'].astype(str)
+
+# Converting to binary for EDA and for values to feed into model
+df['Holiday'] = df['Holiday'].apply(lambda x: 1 if x == "Holiday" else 0)
+df['Functioning Day'] = df['Functioning Day'].apply(
+    lambda x: 1 if x == "Yes" else 0)
+```
+
+```{python}
+train_df, test_df = train_test_split(df, test_size=0.3, random_state=123)
+train_df
+```
+
+Table 4. Overview of the training data set.
+
+```{python}
+# Temp - rental bike graph
+alt.Chart(train_df[train_df['Rented Bike Count'] != 0]).mark_bar().encode(
+    x=alt.X('Rented Bike Count', bin=alt.Bin(maxbins=30)),
+    y=alt.Y('count()', title='Distribution of rental bikes'),
+    tooltip=['Rented Bike Count', 'count()']
+)
+```
+
+Figure 6. Distribution of number of rented bikes.
+
+```{python}
+# Hourly bike graph for seasons
+alt.Chart(train_df).mark_line().encode(
+    x='Hour',
+    y='mean(Rented Bike Count)',
+    color='Seasons',
+    tooltip=['Hour', 'mean(Rented Bike Count)']
+)
+```
+
+Figure 7. Mean number of bikes being rented at different time of the day.
+
+```{python}
+# Correlation graph
+aly.corr(train_df) 
+```
+
+Figure 8. Correlation plots for the different features in the training data set.
+
+### 3. Modeling
+
+```{python}
+# Model separation
+X_train, y_train = train_df.drop(
+    "Rented Bike Count", axis=1), train_df["Rented Bike Count"]
+X_test, y_test = test_df.drop(
+    "Rented Bike Count", axis=1), test_df["Rented Bike Count"]
+```
+
+```{python}
+# Define column transformer for preprocessing
+column_transformer = make_column_transformer(
+    # One-hot encode Hour, Seasons, Year, Month and Day
+    (OneHotEncoder(), ['Hour', 'Seasons', 'Year', 'Month', 'Day']),
+    ("drop", ['Dew point temperature']),
+    remainder='passthrough'  # Leave other columns as they are
+)
+```
+
+We implemented two regression model with a decision tree regressor algorithm and a ridge regression algorithm. To optimize the model performance in predicting bike usage, we performed a randomized 5-fold cross validation using the $R^2$ as the performance metric to evaluate and select the best value for hyperparameters. For the decision tree regressor algorithm, we specifically tuned the maximum depth of the tree, the minimum number of samples required to split a node, and the minimum samples required per leaf. For the ridge regression algorithm, the alpha value was tuned during the cross validation. Based on the analysis, we found that the optimal decision tree regressor model configuration had a maximum depth of 20, a minimum of 10 sample to split a node, and a minimum 4 samples per leaf. Whereas for the ridge regression algorithm, the optimal alpha value was 10.
+
+```{python}
+# Ridge Regression Pipeline
+ridge_pipeline = make_pipeline(
+    column_transformer,
+    StandardScaler(with_mean=False),
+    Ridge()
+)
+
+# Decision Tree Pipeline
+tree_pipeline = make_pipeline(
+    column_transformer,
+    StandardScaler(with_mean=False),
+    DecisionTreeRegressor(random_state=42)
+)
+
+
+# Define parameter grids for RandomizedSearchCV
+ridge_param_grid = {
+    'ridge__alpha': np.logspace(-3, 3, 10)
+}
+
+tree_param_grid = {
+    'decisiontreeregressor__max_depth': [None, 10, 20, 30, 40],
+    'decisiontreeregressor__min_samples_split': [2, 5, 10],
+    'decisiontreeregressor__min_samples_leaf': [1, 2, 4]
+}
+
+# Apply RandomizedSearchCV
+ridge_search = RandomizedSearchCV(
+    ridge_pipeline, ridge_param_grid, cv=5, n_iter=10, random_state=42)
+tree_search = RandomizedSearchCV(
+    tree_pipeline, tree_param_grid, cv=5, n_iter=10, random_state=42)
+
+# Fit models
+ridge_search.fit(X_train, y_train)
+tree_search.fit(X_train, y_train)
+```
+
+```{python}
+# Best tree params
+tree_results = pd.DataFrame(tree_search.cv_results_)
+tree_results = tree_results[tree_results["rank_test_score"] == 1].reset_index()[[
+    "param_decisiontreeregressor__min_samples_split",
+    "param_decisiontreeregressor__min_samples_leaf",
+    "param_decisiontreeregressor__max_depth"]]
+tree_results.columns = ["min_samples_split", "min_samples_leaf", "max_depth"]
+tree_results
+```
+
+```{python}
+# Best ridge params
+ridge_results = pd.DataFrame(ridge_search.cv_results_)
+ridge_results = ridge_results[ridge_results["rank_test_score"] == 1].reset_index()[[
+    "param_ridge__alpha"]]
+ridge_results.columns = ["ridge_alpha"]
+ridge_results
+```
+
+```{python}
+# Predicting accuracy on test set
+ridge_score = ridge_search.score(X_test, y_test)
+tree_score = tree_search.score(X_test, y_test)
+
+ridge_score, tree_score
+```
+
+```{python}
+# Plotting scatter plot for predicted value vs actual value on test set
+PredictionErrorDisplay.from_estimator(
+    tree_search,
+    X_test,
+    y_test,
+    kind='actual_vs_predicted',
+    scatter_kwargs={'alpha': 0.12, 's': 10}
+)
+```
+
+```{python}
+PredictionErrorDisplay.from_estimator(
+    ridge_search,
+    X_test,
+    y_test,
+    kind='actual_vs_predicted',
+    scatter_kwargs={'alpha': 0.12, 's': 10}
+)
+```
+
+Figure 7. Predicted bike usage by regression model vs actual bike usage from test data set.
+
+The decision tree regression model did moderately well on the test data, with an $R^2$ of 0.79. Compared to the ridge regression model, it only obtained a $R^2$ of 0.68. This can also be seen by the scatter plot of the predicted bike usage versus the actual bike usage data. The ridge regression model has a wide spread of prediction for the entire range of bike usage, yet the decision tree regression model seems to be predicting the lower numbers well, albeit still struggling in predicting higher bike usage with the same precision. Despite this, since the bulk of the data lies within a lower range and this is the range where the model performs well, the model should still be able to provide a reasonably accurate predictions for most of the observations.
+
+# Discussion
+
+From the model results reflects the performance of two different models trained on the dataset: a Ridge Regression model and a Decision Tree Regressor. The Decision Tree model outperforms the Ridge Regression model in explaining the variance in the target variable (79.5% vs. 68.0%), this suggests that the data might have non-linear relationships that the Decision Tree is better able to capture compared to the linear Ridge Regression model.
+
+While the Decision Tree achieves better performance, it might be more prone to overfitting if the hyperparameters (e.g., max_depth, min_samples_split, and min_samples_leaf) are not carefully tuned. The constraints imposed by the chosen hyperparameters reduce this risk. Ridge Regression, being a linear model, is less prone to overfitting but struggles to model complex, non-linear relationships.
+
+The dataset includes both numerical and categorical variables (e.g., “Seasons,” “Holiday”), some of which may interact non-linearly with the target variable. This could explain the superior performance of the Decision Tree model. Features like “Temperature,” “Humidity,” and “Visibility” likely exhibit non-linear effects on the bike rental count, which Ridge Regression cannot model effectively.
+
+
+The Decision Tree Regressor demonstrates better performance than Ridge Regression in terms of $R^2$ score, indicating that it better explained the variance in bike rentals, highlighting the importance of non-linear models for this dataset. However, proper interpretability, regularization, and validation are necessary to ensure the model’s robustness. The dataset’s complexity suggests that exploring more advanced ensemble methods could yield even better results.
+
+# References
+
+Dua, D. and Graff, C. (2017) UCI Machine Learning Repository. University of California, Irvine, School of Information; Computer Sciences. http://archive.ics.uci.edu/ml.
+
+Eren, E. and Uz, V.E. (2020) A review on bike-sharing: The factors affecting bike-sharing demand. Sustainable Cities and Society 54:101882.
+
+Harris, C.R. et al. (2020) Array programming with NumPy. Nature, 585:357–362.
+
+Kruchten, N., Mease, J., and Moritz, D. (2022) VegaFusion: Automatic Server-Side Scaling for Interactive Vega Visualizations. IEEE Visualization and Visual Analytics (VIS), 2022: 11-15. doi: 10.1109/VIS54862.2022.00011.
+
+McKinney, W. (2010) Data Structures for Statistical Computing in Python. In Proceedings of the 9th Python in Science Conference, edited by Stéfan van der Walt and Jarrod Millman, 51–56.
+
+Pedregosa, F. et al. (2011) Scikit-learn: Machine learning in Python. Journal of machine learning research, 12(Oct):2825–2830.
+
+Sathishkumar V.E., Park, J., and Cho, Y. (2020) Using data mining techniques for bike sharing demand prediction in Metropolitan city. Computer Communications, 153:353-366.
+
+Sathishkumar V.E. and Cho, Y. (2020) A rule-based model for Seoul Bike sharing demand prediction using Weather data. European Journal of Remote Sensing, 52(1):166-183.
+
+Shaheen, S.A., Guzman, S., and Zhang, H. (2010). Bikesharing in Europe, the Americas, and Asia: Past, Present, and Future. Transportation Research Record, 2143(1):159-167. https://doi.org/10.3141/2143-20 
+
+VanderPlas, J. et al. (2018) Altair: Interactive statistical visualizations for python. Journal of open source software, 3(32):1057.
+
+Van Rossum, G. and Drake, F.L. (2009) Python 3 Reference Manual. CreateSpace, Scotts Valley, CA.
+
