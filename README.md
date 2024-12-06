@@ -60,7 +60,7 @@ docker-compose up
 3) To run the analysis, open a terminal in the jupyter lab and run the following commands:
 
 ```bash
-python scripts/data_pipeline.py \
+python scripts/data_loading_n_validation.py \
     --url="https://archive.ics.uci.edu/static/public/560/seoul+bike+sharing+demand.zip" \
     --write_to=data/raw
 
