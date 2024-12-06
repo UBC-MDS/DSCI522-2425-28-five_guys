@@ -10,7 +10,6 @@ format:
     pdf:
         toc: true
         toc-depth: 2
-bibliography: references.bib
 execute:
   echo: false
   warning: false
@@ -20,6 +19,7 @@ editor: source
 
 ```{python}
 import pandas as pd
+from IPython.display import Markdown, display
 import pickle
 ```
 
@@ -55,447 +55,60 @@ When plotting bike usage against features such as the hour of the day, seasonali
 
 We also plotted a correlation matrix between all the features, we found a strong correlation between temperature and dew point temperature. Given that dew point temperature values closely mirror those of temperature, we decided to drop dew point temperature from the model. The remaining features showed relatively weaker correlations, so we chose not to remove them as they may offer valueable information for predicting bike demand.
 
-### 1.1 Data Validation 1
 
-```{python}
-# data validation 1
-#1. check format of the data to see if it is a csv file or not
-url = 'https://archive.ics.uci.edu/static/public/560/seoul+bike+sharing+demand.zip'
-def check_csv_in_zip(url):
-    try:
-        # Stream the zip file content
-        response = requests.get(url, stream=True)
-        response.raise_for_status()  # Raise an error for bad status codes
 
-        # Load zip file into memory and list its contents
-        with zipfile.ZipFile(io.BytesIO(response.content)) as z:
-            file_list = z.namelist()  # Get all file names in the zip
-            csv_files = [f for f in file_list if f.endswith(".csv")]
-            
-            # Check if any CSV files exist
-            if csv_files:
-                print(f"✅ Found CSV file(s): {csv_files}")
-                return True
-            else:
-                raise ValueError("❌ No CSV files found in the zip.")
-    except zipfile.BadZipFile:
-        raise ValueError("❌ The file is not a valid zip archive.")
-    except requests.exceptions.RequestException as e:
-        raise ValueError(f"❌ Error fetching the zip file: {e}")
-
-# Call the function to check for CSV
-try:
-    check_csv_in_zip(url)
-except ValueError as e:
-    raise ValueError(f"❌ error with wrong file format or wrong links ")
-    print(e)
-```
-
-### 1.2 Data Loading
-
-```{python}
-# Load in data
-df = pd.read_csv(
-    'https://archive.ics.uci.edu/static/public/560/seoul+bike+sharing+demand.zip', encoding='latin-1')
-
-df.to_csv("data/SeoulBikeData.csv", index=False)  # Save it locally
-
-df.head()
-```
-
-### 1.3   Data validation 2
-
-```{python}
-# data validation 2
-# 2. data validation 2 check correct columns
-required_columns = [
-    'Date', 'Rented Bike Count', 'Hour', 'Temperature(°C)', 'Humidity(%)',
-    'Wind speed (m/s)', 'Visibility (10m)', 'Dew point temperature(°C)',
-    'Solar Radiation (MJ/m2)', 'Rainfall(mm)', 'Snowfall (cm)', 'Seasons',
-    'Holiday', 'Functioning Day'
-]
-
-# Check if all required columns are present in the DataFrame
-missing_columns = [col for col in required_columns if col not in df.columns]
-
-if not missing_columns:
-    print("✅ All required columns are present in the DataFrame.")
-else:
-    raise ValueError(f"❌ The following columns are missing from the DataFrame: {missing_columns}")
-```
-
-### 1.4 data validation 3-8
-
-```{python}
-# Data validation #3-8
-import pandera as pa
-
-schema = pa.DataFrameSchema(    # Check correct data types in each column
-    {
-        "Date": pa.Column(str),
-        "Rented Bike Count": pa.Column(int, pa.Check.between(0, np.inf)),  # Check no outlier or anomalous values
-        "Hour": pa.Column(int, pa.Check.between(0, 23)),   # Check no outlier or anomalous values
-        "Temperature(°C)": pa.Column(float),
-        "Humidity(%)": pa.Column(int, pa.Check.between(0, 100)), # Check no outlier or anomalous values
-        "Wind speed (m/s)": pa.Column(float),
-        "Visibility (10m)": pa.Column(int),
-        "Dew point temperature(°C)": pa.Column(float),
-        "Solar Radiation (MJ/m2)": pa.Column(float),
-        "Rainfall(mm)": pa.Column(float,
-                                  pa.Check(lambda s: s.isna().mean() <= 0.05,   # Check missingness not beyond expected threshold
-                                           element_wise=False,
-                                           error="Too many null values in 'Rainfall(mm)' column."),
-                                  nullable=True),
-        "Snowfall (cm)": pa.Column(float),
-        "Seasons": pa.Column(str, pa.Check.isin(["Winter", "Summer", "Autumn", "Spring"])), # Check correct category levels
-        "Holiday": pa.Column(str, pa.Check.isin(["Holiday", "No Holiday"])), # Check correct category levels
-        "Functioning Day": pa.Column(str, pa.Check.isin(["Yes", "No"])) # Check correct category levels
-    },
-    checks=[
-        pa.Check(lambda df: ~df.duplicated().any(), # 6. check no duplicate observations
-                 error="Duplicate rows found."),
-        pa.Check(lambda df: ~(df.isna().all(axis=1)).any(),  # 3. check no empty observations
-                 error="Empty rows found.")
-    ]
-)
-# data validation check 3 - 8
-df = schema.validate(df, lazy=True).drop_duplicates().dropna(how="all")
-```
-
-### 1.5 Data validation check 9 - 11
-
-```{python}
-# Data validation 9
-# 9. check numerical target variable to see if it is skewed or not 
-target_column = "Rented Bike Count"  # Replace with the name of your target column
-# Check if the column exists in the DataFrame
-if target_column in df.columns:
-    # Check if the target column is numerical
-    if pd.api.types.is_numeric_dtype(df[target_column]):
-        # Calculate skewness
-        skewness_value = skew(df[target_column].dropna())  # Drop NaN values to avoid issues
-        print(f"Skewness of '{target_column}': {skewness_value:.2f}")
-
-        # Raise an error if the data is not skewed
-        if -1 <= skewness_value <= 1:
-            raise ValueError(f"❌ The target variable '{target_column}' is not skewed (approximately symmetrical).")
-        else:
-            print(f"✅ The target variable '{target_column}' is skewed (Skewness: {skewness_value:.2f}).")
-    else:
-        raise ValueError(f"❌ The target variable '{target_column}' is not numerical.")
-else:
-    raise ValueError(f"❌ Column '{target_column}' does not exist in the DataFrame.")
-```
-
-```{python}
-# data validation check 10 -11 
-
-# 10. No anomalous correlations between target/response variable and features/explanatory variables
-# Create a Deepchecks Dataset
-deep_check = Dataset(df, label="Rented Bike Count", cat_features=[])
-
-check_feat_lab_corr = FeatureLabelCorrelation().add_condition_feature_pps_less_than(0.9)
-check_feat_lab_corr_result = check_feat_lab_corr.run(dataset=deep_check)
-
-if not check_feat_lab_corr_result.passed_conditions():
-    raise ValueError("Feature-Label correlation exceeds the maximum acceptable threshold.")
-else:
-    print("✅ No anomalous correlations between target/response variable and features.")
-
-# 11. No anomalous correlations between features/explanatory variables check 
-
-check_feat_feat_corr = FeatureFeatureCorrelation()
-check_feat_feat_corr_result = check_feat_feat_corr.run(dataset=deep_check)
-
-# Inspect results
-if not check_feat_feat_corr_result.passed_conditions():
-    print("⚠️ Feature-Feature correlation issues detected.")
-    raise ValueError("Feature-Feature correlation issues detected")
-else:
-    print("✅ No anomalous correlations between features.")
-
-# Optionally visualize the correlation matrix
-check_feat_feat_corr_result.show()
-```
 
 ### 1.6 EDA Analysis
 
 ```{python}
-# Check for missing values
-missing_values = df.isnull().sum()
-missing_values_table = pd.DataFrame({"Missing Values": missing_values})
-missing_values_table
+#| label: tbl-missing-values
+#| tbl-cap: Number of missing values in every column
+missing_values = pd.read_csv("../results/tables/missing_values.csv")
+Markdown(missing_values.to_markdown(index = False))
 ```
 
-Table 2. Number of missing values in every column
 
 ```{python}
-# Summary statistics
-summary_stats = df.describe()
-summary_stats_table = summary_stats.loc['mean':'max']
-summary_stats_table
+#| label: tbl-summary-stats
+#| tbl-cap: Summary statistics of each column 
+summary_stats = pd.read_csv("../results/tables/summary_stats.csv")
+Markdown(summary_stats.to_markdown(index = False))
 ```
 
-Table 3. Summary statistics of each column 
 
-```{python}
-rented_bike_hist = alt.Chart(df).mark_bar().encode(
-    alt.X('Rented Bike Count:Q', bin=True, title='Rented Bike Count'),
-    alt.Y('count()', title='Frequency'),
-    tooltip=['count()']
-).properties(
-    title='Distribution of Rented Bike Count',
-    width=700,
-    height=400
-)
-rented_bike_hist
-```
+![Distribution of Rented Bike Count](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=60%}
 
-Figure 1. Distribution of Rented Bike Count
 
-```{python}
-hourly_avg_chart = alt.Chart(df).mark_line(point=True).encode(
-    x=alt.X('Hour:O', title='Hour of Day'),
-    y=alt.Y('mean(Rented Bike Count):Q', title='Average Rented Bike Count'),
-    tooltip=['Hour', 'mean(Rented Bike Count)']
-).properties(
-    title='Average Rented Bike Count by Hour',
-    width=700,
-    height=400
-)
-hourly_avg_chart
-```
+![Average Rented Bike Count by Hour](../results/figures/hourly_rental_count.png){#fig-hourly-rental-count width=60%}
 
-Figure 2. Average Rented Bike Count by Hour
 
-```{python}
+![Average Rented Bike Count by Season](../results/figures/season_rental_count.png){#fig-season-rental-count width=60%}
 
-season_avg_chart = alt.Chart(df).mark_bar().encode(
-    x=alt.X('Seasons:O', title='Season'),
-    y=alt.Y('mean(Rented Bike Count):Q', title='Average Rented Bike Count'),
-    color='Seasons',
-    tooltip=['Seasons', 'mean(Rented Bike Count)']
-).properties(
-    title='Average Rented Bike Count by Season',
-    width=700,
-    height=400
-)
-season_avg_chart
-```
 
-Figure 3. Average Rented Bike Count by Season
+![Number of bike rentals at different temperatures for different seasons](../results/figures/season_temp_count.png){#fig-season-temp-count width=60%}
 
-```{python}
-alt.Chart(df).mark_circle().encode(
-    alt.X('Temperature(°C):Q', title='Temperature (°C)'),
-    alt.Y('Rented Bike Count:Q', title='Rented Bike Count'),
-    color='Seasons:N',
-    tooltip=['Temperature(°C)', 'Rented Bike Count', 'Seasons']
-).properties(
-    title='Number of bike rentals at different temperatures for different seasons',
-    width=600,
-    height=400
-)
-```
 
-Figure 4. Number of bike rentals at different temperatures for different seasons 
+![Summary distribution of bike rentals between holidays and non holidays.](../results/figures/holiday_dist.png){#fig-holiday_dist width=60%}
 
-```{python}
-alt.Chart(df).mark_boxplot().encode(
-    alt.X('Holiday:N', title='Holiday'),
-    alt.Y('Rented Bike Count:Q', title='Rented Bike Count'),
-    color='Holiday:N',
-    tooltip=['Holiday', 'Rented Bike Count']
-).properties(
-    title='Summary distribution of bike rentals between holidays and non holidays',
-    width=600,
-    height=400
-)
-```
-
-Figure 5. Summary distribution of bike rentals between holidays and non holidays.
 
 ### 2. Data Preprocessing 
 
-```{python}
-# Renaming the colums for the simplicity
-df = df.rename(columns={
-    'Temperature(°C)': 'Temperature',
-    'Humidity(%)': 'Humidity',
-    'Rainfall(mm)': 'Rainfall',
-    'Snowfall (cm)': 'Snowfall',
-    'Wind speed (m/s)': 'Wind speed',
-    'Visibility (10m)': 'Visibility',
-    'Solar Radiation (MJ/m2)': 'Radiation',
-    'Dew point temperature(°C)': 'Dew point temperature'})
-```
-
-```{python}
-# Convert the Date column in Datetime Dtype
-df['Date'] = pd.to_datetime(df['Date'], format='mixed')
-
-# Extract features from the Date column
-df['Year'] = df['Date'].dt.year
-df['Month'] = df['Date'].dt.month
-df['Day'] = df['Date'].dt.day
-df['Weekday'] = df['Date'].dt.weekday
-df = df.drop(['Date'], axis=1)  # Exclude unwanted columns
-
-# Convert to categorical
-# df['Hour'] = df['Hour'].astype(str)
-df['Seasons'] = df['Seasons'].astype(str)
-
-# Converting to binary for EDA and for values to feed into model
-df['Holiday'] = df['Holiday'].apply(lambda x: 1 if x == "Holiday" else 0)
-df['Functioning Day'] = df['Functioning Day'].apply(
-    lambda x: 1 if x == "Yes" else 0)
-```
-
-```{python}
-train_df, test_df = train_test_split(df, test_size=0.3, random_state=123)
-train_df
-```
 
 Table 4. Overview of the training data set.
 
-```{python}
-# Temp - rental bike graph
-alt.Chart(train_df[train_df['Rented Bike Count'] != 0]).mark_bar().encode(
-    x=alt.X('Rented Bike Count', bin=alt.Bin(maxbins=30)),
-    y=alt.Y('count()', title='Distribution of rental bikes'),
-    tooltip=['Rented Bike Count', 'count()']
-)
-```
 
-Figure 6. Distribution of number of rented bikes.
+![Distribution of number of rented bikes.](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=60%}
 
-```{python}
-# Hourly bike graph for seasons
-alt.Chart(train_df).mark_line().encode(
-    x='Hour',
-    y='mean(Rented Bike Count)',
-    color='Seasons',
-    tooltip=['Hour', 'mean(Rented Bike Count)']
-)
-```
 
-Figure 7. Mean number of bikes being rented at different time of the day.
+![Mean number of bikes being rented at different time of the day.](../results/figures/season_hourly.png){#fig-season-hourly width=60%}
 
-```{python}
-# Correlation graph
-aly.corr(train_df) 
-```
-
-Figure 8. Correlation plots for the different features in the training data set.
+![Correlation plots for the different features in the training data set.](../results/figures/corr_chart.png){#fig-corr_chart width=60%}
 
 ### 3. Modeling
 
-```{python}
-# Model separation
-X_train, y_train = train_df.drop(
-    "Rented Bike Count", axis=1), train_df["Rented Bike Count"]
-X_test, y_test = test_df.drop(
-    "Rented Bike Count", axis=1), test_df["Rented Bike Count"]
-```
-
-```{python}
-# Define column transformer for preprocessing
-column_transformer = make_column_transformer(
-    # One-hot encode Hour, Seasons, Year, Month and Day
-    (OneHotEncoder(), ['Hour', 'Seasons', 'Year', 'Month', 'Day']),
-    ("drop", ['Dew point temperature']),
-    remainder='passthrough'  # Leave other columns as they are
-)
-```
 
 We implemented two regression model with a decision tree regressor algorithm and a ridge regression algorithm. To optimize the model performance in predicting bike usage, we performed a randomized 5-fold cross validation using the $R^2$ as the performance metric to evaluate and select the best value for hyperparameters. For the decision tree regressor algorithm, we specifically tuned the maximum depth of the tree, the minimum number of samples required to split a node, and the minimum samples required per leaf. For the ridge regression algorithm, the alpha value was tuned during the cross validation. Based on the analysis, we found that the optimal decision tree regressor model configuration had a maximum depth of 20, a minimum of 10 sample to split a node, and a minimum 4 samples per leaf. Whereas for the ridge regression algorithm, the optimal alpha value was 10.
 
-```{python}
-# Ridge Regression Pipeline
-ridge_pipeline = make_pipeline(
-    column_transformer,
-    StandardScaler(with_mean=False),
-    Ridge()
-)
-
-# Decision Tree Pipeline
-tree_pipeline = make_pipeline(
-    column_transformer,
-    StandardScaler(with_mean=False),
-    DecisionTreeRegressor(random_state=42)
-)
-
-
-# Define parameter grids for RandomizedSearchCV
-ridge_param_grid = {
-    'ridge__alpha': np.logspace(-3, 3, 10)
-}
-
-tree_param_grid = {
-    'decisiontreeregressor__max_depth': [None, 10, 20, 30, 40],
-    'decisiontreeregressor__min_samples_split': [2, 5, 10],
-    'decisiontreeregressor__min_samples_leaf': [1, 2, 4]
-}
-
-# Apply RandomizedSearchCV
-ridge_search = RandomizedSearchCV(
-    ridge_pipeline, ridge_param_grid, cv=5, n_iter=10, random_state=42)
-tree_search = RandomizedSearchCV(
-    tree_pipeline, tree_param_grid, cv=5, n_iter=10, random_state=42)
-
-# Fit models
-ridge_search.fit(X_train, y_train)
-tree_search.fit(X_train, y_train)
-```
-
-```{python}
-# Best tree params
-tree_results = pd.DataFrame(tree_search.cv_results_)
-tree_results = tree_results[tree_results["rank_test_score"] == 1].reset_index()[[
-    "param_decisiontreeregressor__min_samples_split",
-    "param_decisiontreeregressor__min_samples_leaf",
-    "param_decisiontreeregressor__max_depth"]]
-tree_results.columns = ["min_samples_split", "min_samples_leaf", "max_depth"]
-tree_results
-```
-
-```{python}
-# Best ridge params
-ridge_results = pd.DataFrame(ridge_search.cv_results_)
-ridge_results = ridge_results[ridge_results["rank_test_score"] == 1].reset_index()[[
-    "param_ridge__alpha"]]
-ridge_results.columns = ["ridge_alpha"]
-ridge_results
-```
-
-```{python}
-# Predicting accuracy on test set
-ridge_score = ridge_search.score(X_test, y_test)
-tree_score = tree_search.score(X_test, y_test)
-
-ridge_score, tree_score
-```
-
-```{python}
-# Plotting scatter plot for predicted value vs actual value on test set
-PredictionErrorDisplay.from_estimator(
-    tree_search,
-    X_test,
-    y_test,
-    kind='actual_vs_predicted',
-    scatter_kwargs={'alpha': 0.12, 's': 10}
-)
-```
-
-```{python}
-PredictionErrorDisplay.from_estimator(
-    ridge_search,
-    X_test,
-    y_test,
-    kind='actual_vs_predicted',
-    scatter_kwargs={'alpha': 0.12, 's': 10}
-)
-```
 
 Figure 7. Predicted bike usage by regression model vs actual bike usage from test data set.
 
