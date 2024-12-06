@@ -25,7 +25,7 @@ def main(raw_data, data_to, preprocessor_to, seed):
     '''
     np.random.seed(seed)
     set_config(transform_output="pandas")
-    df = pd.read_csv(raw_data)
+    df = pd.read_csv(raw_data, encoding="latin-1")
 
     # renaming columns
     df = df.rename(columns={
