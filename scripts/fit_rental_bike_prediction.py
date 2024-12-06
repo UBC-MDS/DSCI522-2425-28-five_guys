@@ -19,7 +19,7 @@ from sklearn.tree import DecisionTreeRegressor
 @click.option('--pipeline-to', type=str, help="Path to directory where the pipeline object will be written to")
 @click.option('--seed', type=int, help="Random seed", default=123)
 
-def main(training_data, preprocessor, columns_to_drop, pipeline_to, plot_to, seed):
+def main(training_data, preprocessor, pipeline_to, seed):
     '''Fits a rental bike classiier to the training data and saves the
     pipeline object.'''
     np.random.seed(seed)
@@ -59,13 +59,13 @@ def main(training_data, preprocessor, columns_to_drop, pipeline_to, plot_to, see
     # Perform RandomizedSearchCV for both pipelines
     ridge_search = RandomizedSearchCV(
         estimator=ridge_pipeline,
-        param_grid =  ridge_param_grid,
+        param_distributions =  ridge_param_grid,
         cv = 10, n_iter = 20, random_state=seed)
 
     tree_search = RandomizedSearchCV(
         estimator=tree_pipeline,
-        param_grid =  tree_param_grid,
-        cv = 10, n_iter = 20, random_state=seed)
+        param_distributions =  tree_param_grid,
+        cv = 10, n_iter = 10, random_state=seed)
         
     # Fit models
     ridge_fit = ridge_search.fit(rental_bike_train.drop(

@@ -8,7 +8,7 @@ import pickle
 from sklearn.model_selection import train_test_split
 from sklearn import set_config
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import make_column_transformer
 
 @click.command()
@@ -25,7 +25,7 @@ def main(raw_data, data_to, preprocessor_to, seed):
     '''
     np.random.seed(seed)
     set_config(transform_output="pandas")
-    df = pd.read_csv(raw_data, encoding="latin-1")
+    df = pd.read_csv(raw_data)
 
     # renaming columns
     df = df.rename(columns={
@@ -65,9 +65,9 @@ def main(raw_data, data_to, preprocessor_to, seed):
     # Define column transformer for preprocessing
     bike_preprocessor = make_column_transformer(
         # One-hot encode Hour, Seasons, Year, Month and Day
-        (OneHotEncoder(sparse_output=False), ['Hour', 'Seasons', 'Year', 'Month', 'Day']),
+        (OneHotEncoder(), ['Hour', 'Seasons', 'Year', 'Month', 'Day']),
         ("drop", ['Dew point temperature']),
-        remainder= StandardScaler()  # Leave other columns as they are
+        remainder='passthrough'  # Leave other columns as they are
     )
 
     pickle.dump(bike_preprocessor, open(os.path.join(preprocessor_to, "bike_preprocessor.pickle"), "wb"))
@@ -78,7 +78,6 @@ def main(raw_data, data_to, preprocessor_to, seed):
 
     scaled_bike_train.to_csv(os.path.join(data_to, "scaled_bike_train.csv"), index=False)
     scaled_bike_test.to_csv(os.path.join(data_to, "scaled_bike_test.csv"), index=False)
-
 
 if __name__ == '__main__':
     main()
