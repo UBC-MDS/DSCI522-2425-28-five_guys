@@ -81,65 +81,19 @@ Table 3. Summary statistics of each column
 
 Figure 1. Distribution of Rented Bike Count
 
-```{python}
-hourly_avg_chart = alt.Chart(df).mark_line(point=True).encode(
-    x=alt.X('Hour:O', title='Hour of Day'),
-    y=alt.Y('mean(Rented Bike Count):Q', title='Average Rented Bike Count'),
-    tooltip=['Hour', 'mean(Rented Bike Count)']
-).properties(
-    title='Average Rented Bike Count by Hour',
-    width=700,
-    height=400
-)
-hourly_avg_chart
-```
+![Average Rented Bike Count by Hour](../results/figures/hourly_rental_count.png){#fig-hourly-rental-count width=60%}
 
 Figure 2. Average Rented Bike Count by Hour
 
-```{python}
-
-season_avg_chart = alt.Chart(df).mark_bar().encode(
-    x=alt.X('Seasons:O', title='Season'),
-    y=alt.Y('mean(Rented Bike Count):Q', title='Average Rented Bike Count'),
-    color='Seasons',
-    tooltip=['Seasons', 'mean(Rented Bike Count)']
-).properties(
-    title='Average Rented Bike Count by Season',
-    width=700,
-    height=400
-)
-season_avg_chart
-```
+![Average Rented Bike Count by Season](../results/figures/season_rental_count.png){#fig-season-rental-count width=60%}
 
 Figure 3. Average Rented Bike Count by Season
 
-```{python}
-alt.Chart(df).mark_circle().encode(
-    alt.X('Temperature(°C):Q', title='Temperature (°C)'),
-    alt.Y('Rented Bike Count:Q', title='Rented Bike Count'),
-    color='Seasons:N',
-    tooltip=['Temperature(°C)', 'Rented Bike Count', 'Seasons']
-).properties(
-    title='Number of bike rentals at different temperatures for different seasons',
-    width=600,
-    height=400
-)
-```
+![Number of bike rentals at different temperatures for different seasons](../results/figures/season_temp_count.png){#fig-season-temp-count width=60%}
 
 Figure 4. Number of bike rentals at different temperatures for different seasons 
 
-```{python}
-alt.Chart(df).mark_boxplot().encode(
-    alt.X('Holiday:N', title='Holiday'),
-    alt.Y('Rented Bike Count:Q', title='Rented Bike Count'),
-    color='Holiday:N',
-    tooltip=['Holiday', 'Rented Bike Count']
-).properties(
-    title='Summary distribution of bike rentals between holidays and non holidays',
-    width=600,
-    height=400
-)
-```
+![Summary distribution of bike rentals between holidays and non holidays.](../results/figures/season_hourly.png){#fig-season-hourly width=60%}
 
 Figure 5. Summary distribution of bike rentals between holidays and non holidays.
 
