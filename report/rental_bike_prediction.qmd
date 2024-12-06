@@ -93,191 +93,31 @@ Figure 3. Average Rented Bike Count by Season
 
 Figure 4. Number of bike rentals at different temperatures for different seasons 
 
-![Summary distribution of bike rentals between holidays and non holidays.](../results/figures/season_hourly.png){#fig-season-hourly width=60%}
+![Summary distribution of bike rentals between holidays and non holidays.](../results/figures/holiday_dist.png){#fig-holiday_dist width=60%}
 
 Figure 5. Summary distribution of bike rentals between holidays and non holidays.
 
 ### 2. Data Preprocessing 
 
-```{python}
-# Renaming the colums for the simplicity
-df = df.rename(columns={
-    'Temperature(°C)': 'Temperature',
-    'Humidity(%)': 'Humidity',
-    'Rainfall(mm)': 'Rainfall',
-    'Snowfall (cm)': 'Snowfall',
-    'Wind speed (m/s)': 'Wind speed',
-    'Visibility (10m)': 'Visibility',
-    'Solar Radiation (MJ/m2)': 'Radiation',
-    'Dew point temperature(°C)': 'Dew point temperature'})
-```
-
-```{python}
-# Convert the Date column in Datetime Dtype
-df['Date'] = pd.to_datetime(df['Date'], format='mixed')
-
-# Extract features from the Date column
-df['Year'] = df['Date'].dt.year
-df['Month'] = df['Date'].dt.month
-df['Day'] = df['Date'].dt.day
-df['Weekday'] = df['Date'].dt.weekday
-df = df.drop(['Date'], axis=1)  # Exclude unwanted columns
-
-# Convert to categorical
-# df['Hour'] = df['Hour'].astype(str)
-df['Seasons'] = df['Seasons'].astype(str)
-
-# Converting to binary for EDA and for values to feed into model
-df['Holiday'] = df['Holiday'].apply(lambda x: 1 if x == "Holiday" else 0)
-df['Functioning Day'] = df['Functioning Day'].apply(
-    lambda x: 1 if x == "Yes" else 0)
-```
-
-```{python}
-train_df, test_df = train_test_split(df, test_size=0.3, random_state=123)
-train_df
-```
 
 Table 4. Overview of the training data set.
 
-```{python}
-# Temp - rental bike graph
-alt.Chart(train_df[train_df['Rented Bike Count'] != 0]).mark_bar().encode(
-    x=alt.X('Rented Bike Count', bin=alt.Bin(maxbins=30)),
-    y=alt.Y('count()', title='Distribution of rental bikes'),
-    tooltip=['Rented Bike Count', 'count()']
-)
-```
+
 
 Figure 6. Distribution of number of rented bikes.
 
-```{python}
-# Hourly bike graph for seasons
-alt.Chart(train_df).mark_line().encode(
-    x='Hour',
-    y='mean(Rented Bike Count)',
-    color='Seasons',
-    tooltip=['Hour', 'mean(Rented Bike Count)']
-)
-```
 
 Figure 7. Mean number of bikes being rented at different time of the day.
 
-```{python}
-# Correlation graph
-aly.corr(train_df) 
-```
 
 Figure 8. Correlation plots for the different features in the training data set.
 
 ### 3. Modeling
 
-```{python}
-# Model separation
-X_train, y_train = train_df.drop(
-    "Rented Bike Count", axis=1), train_df["Rented Bike Count"]
-X_test, y_test = test_df.drop(
-    "Rented Bike Count", axis=1), test_df["Rented Bike Count"]
-```
-
-```{python}
-# Define column transformer for preprocessing
-column_transformer = make_column_transformer(
-    # One-hot encode Hour, Seasons, Year, Month and Day
-    (OneHotEncoder(), ['Hour', 'Seasons', 'Year', 'Month', 'Day']),
-    ("drop", ['Dew point temperature']),
-    remainder='passthrough'  # Leave other columns as they are
-)
-```
 
 We implemented two regression model with a decision tree regressor algorithm and a ridge regression algorithm. To optimize the model performance in predicting bike usage, we performed a randomized 5-fold cross validation using the $R^2$ as the performance metric to evaluate and select the best value for hyperparameters. For the decision tree regressor algorithm, we specifically tuned the maximum depth of the tree, the minimum number of samples required to split a node, and the minimum samples required per leaf. For the ridge regression algorithm, the alpha value was tuned during the cross validation. Based on the analysis, we found that the optimal decision tree regressor model configuration had a maximum depth of 20, a minimum of 10 sample to split a node, and a minimum 4 samples per leaf. Whereas for the ridge regression algorithm, the optimal alpha value was 10.
 
-```{python}
-# Ridge Regression Pipeline
-ridge_pipeline = make_pipeline(
-    column_transformer,
-    StandardScaler(with_mean=False),
-    Ridge()
-)
 
-# Decision Tree Pipeline
-tree_pipeline = make_pipeline(
-    column_transformer,
-    StandardScaler(with_mean=False),
-    DecisionTreeRegressor(random_state=42)
-)
-
-
-# Define parameter grids for RandomizedSearchCV
-ridge_param_grid = {
-    'ridge__alpha': np.logspace(-3, 3, 10)
-}
-
-tree_param_grid = {
-    'decisiontreeregressor__max_depth': [None, 10, 20, 30, 40],
-    'decisiontreeregressor__min_samples_split': [2, 5, 10],
-    'decisiontreeregressor__min_samples_leaf': [1, 2, 4]
-}
-
-# Apply RandomizedSearchCV
-ridge_search = RandomizedSearchCV(
-    ridge_pipeline, ridge_param_grid, cv=5, n_iter=10, random_state=42)
-tree_search = RandomizedSearchCV(
-    tree_pipeline, tree_param_grid, cv=5, n_iter=10, random_state=42)
-
-# Fit models
-ridge_search.fit(X_train, y_train)
-tree_search.fit(X_train, y_train)
-```
-
-```{python}
-# Best tree params
-tree_results = pd.DataFrame(tree_search.cv_results_)
-tree_results = tree_results[tree_results["rank_test_score"] == 1].reset_index()[[
-    "param_decisiontreeregressor__min_samples_split",
-    "param_decisiontreeregressor__min_samples_leaf",
-    "param_decisiontreeregressor__max_depth"]]
-tree_results.columns = ["min_samples_split", "min_samples_leaf", "max_depth"]
-tree_results
-```
-
-```{python}
-# Best ridge params
-ridge_results = pd.DataFrame(ridge_search.cv_results_)
-ridge_results = ridge_results[ridge_results["rank_test_score"] == 1].reset_index()[[
-    "param_ridge__alpha"]]
-ridge_results.columns = ["ridge_alpha"]
-ridge_results
-```
-
-```{python}
-# Predicting accuracy on test set
-ridge_score = ridge_search.score(X_test, y_test)
-tree_score = tree_search.score(X_test, y_test)
-
-ridge_score, tree_score
-```
-
-```{python}
-# Plotting scatter plot for predicted value vs actual value on test set
-PredictionErrorDisplay.from_estimator(
-    tree_search,
-    X_test,
-    y_test,
-    kind='actual_vs_predicted',
-    scatter_kwargs={'alpha': 0.12, 's': 10}
-)
-```
-
-```{python}
-PredictionErrorDisplay.from_estimator(
-    ridge_search,
-    X_test,
-    y_test,
-    kind='actual_vs_predicted',
-    scatter_kwargs={'alpha': 0.12, 's': 10}
-)
-```
 
 Figure 7. Predicted bike usage by regression model vs actual bike usage from test data set.
 
