@@ -17,6 +17,7 @@ dependencies:
   - requests=2.31.0
   - notebook=6.5.4
   - jupyter_contrib_nbextensions=0.7.0
+  - click=8.1.7
   - pip
   - pip:
       - deepchecks==0.18.1
