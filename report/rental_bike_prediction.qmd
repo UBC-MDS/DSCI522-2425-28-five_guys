@@ -10,7 +10,6 @@ format:
     pdf:
         toc: true
         toc-depth: 2
-bibliography: references.bib
 execute:
   echo: false
   warning: false
@@ -66,7 +65,6 @@ missing_values = pd.read_csv("../results/tables/missing_values.csv")
 Markdown(missing_values.to_markdown(index = False))
 ```
 
-Table 2. Number of missing values in every column
 
 ```{python}
 #| label: tbl-summary-stats
@@ -75,27 +73,21 @@ summary_stats = pd.read_csv("../results/tables/summary_stats.csv")
 Markdown(summary_stats.to_markdown(index = False))
 ```
 
-Table 3. Summary statistics of each column 
 
 ![Distribution of Rented Bike Count](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=60%}
 
-Figure 1. Distribution of Rented Bike Count
 
 ![Average Rented Bike Count by Hour](../results/figures/hourly_rental_count.png){#fig-hourly-rental-count width=60%}
 
-Figure 2. Average Rented Bike Count by Hour
 
 ![Average Rented Bike Count by Season](../results/figures/season_rental_count.png){#fig-season-rental-count width=60%}
 
-Figure 3. Average Rented Bike Count by Season
 
 ![Number of bike rentals at different temperatures for different seasons](../results/figures/season_temp_count.png){#fig-season-temp-count width=60%}
 
-Figure 4. Number of bike rentals at different temperatures for different seasons 
 
 ![Summary distribution of bike rentals between holidays and non holidays.](../results/figures/holiday_dist.png){#fig-holiday_dist width=60%}
 
-Figure 5. Summary distribution of bike rentals between holidays and non holidays.
 
 ### 2. Data Preprocessing 
 
