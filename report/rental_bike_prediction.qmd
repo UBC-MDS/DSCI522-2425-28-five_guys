@@ -24,6 +24,12 @@ from IPython.display import Markdown, display
 import pickle
 ```
 
+```{python}
+test_scores = pd.read_csv("../results/tables/test_scores.csv")
+accuracy_ridge_raw, accuracy_tree_raw = round(test_scores["accuracy_ridge"].values[0],2), round(test_scores["accuracy_tree"].values[0],2)
+accuracy_ridge, accuracy_tree = f"""{round(test_scores["accuracy_ridge"].values[0],4) * 100}%""", f"""{round(test_scores["accuracy_tree"].values[0],4) * 100}%"""
+```
+
 {{< pagebreak >}}
 
 # Summary
@@ -78,8 +84,7 @@ Markdown(missing_values.to_markdown(index = False))
 #| label: tbl-summary-stats
 #| tbl-cap: Summary statistics of key columns 
 summary_stats = pd.read_csv("../results/tables/summary_stats.csv")
-summary_stats1 = summary_stats.iloc[:,:7]
-summary_stats2 = summary_stats.iloc[:,7:]
+summary_stats1, summary_stats2 = summary_stats.iloc[:,:7], summary_stats.iloc[:,7:]
 Markdown(summary_stats1.to_markdown(index = False))
 ```
 
@@ -100,23 +105,23 @@ Markdown(summary_stats1.to_markdown(index = False))
 
 ![Mean number of bikes being rented at different time of the day.](../results/figures/season_hourly.png){#fig-season-hourly width=70%}
 
-![Correlation plots for the different features in the training data set.](../results/figures/corr_chart.png){#fig-corr_chart width=70%}
+![Correlation plots for the different features in the training data set.](../results/figures/corr_chart.png){#fig-corr_chart}
 
 {{< pagebreak >}}
 
 ## Modeling
 
-We implemented two regression model with a decision tree regressor algorithm and a ridge regression algorithm. To optimize the model performance in predicting bike usage, we performed a randomized 5-fold cross validation using the $R^2$ as the performance metric to evaluate and select the best value for hyperparameters. For the decision tree regressor algorithm, we specifically tuned the maximum depth of the tree, the minimum number of samples required to split a node, and the minimum samples required per leaf. For the ridge regression algorithm, the alpha value was tuned during the cross validation. Based on the analysis, we found that the optimal decision tree regressor model configuration had a maximum depth of 20, a minimum of 10 sample to split a node, and a minimum 4 samples per leaf. Whereas for the ridge regression algorithm, the optimal alpha value was 10.
-
-![Predicted bike usage by Regression model vs actual bike usage from test data set.](../results/figures/prediction_error_ridge.png){#fig-error-ridge width=70%}
+We implemented two regression models with a decision tree regressor algorithm and a ridge regression algorithm. To optimize the model performance in predicting bike usage, we performed a randomized 5-fold cross validation using the $R^2$ as the performance metric to evaluate and select the best value for hyperparameters. For the decision tree regressor algorithm, we specifically tuned the maximum depth of the tree, the minimum number of samples required to split a node, and the minimum samples required per leaf. For the ridge regression algorithm, the alpha value was tuned during the cross validation. Based on the analysis, we found that the optimal decision tree regressor model configuration had a maximum depth of 20, a minimum of 10 sample to split a node, and a minimum 4 samples per leaf. Whereas for the ridge regression algorithm, the optimal alpha value was 10.
 
 ![Predicted bike usage by Decision Tree model vs actual bike usage from test data set.](../results/figures/prediction_error_tree.png){#fig-error-tree width=70%}
 
-The decision tree regression model did moderately well on the test data, with an $R^2$ of 0.79. Compared to the ridge regression model, it only obtained a $R^2$ of 0.68. This can also be seen by the scatter plot of the predicted bike usage versus the actual bike usage data. The ridge regression model has a wide spread of prediction for the entire range of bike usage, yet the decision tree regression model seems to be predicting the lower numbers well, albeit still struggling in predicting higher bike usage with the same precision. Despite this, since the bulk of the data lies within a lower range and this is the range where the model performs well, the model should still be able to provide a reasonably accurate predictions for most of the observations.
+![Predicted bike usage by Regression model vs actual bike usage from test data set.](../results/figures/prediction_error_ridge.png){#fig-error-ridge width=70%}
+
+The decision tree regression model did moderately well on the test data, with an $R^2$ of `{python} accuracy_tree_raw`. Compared to the ridge regression model, it only obtained a $R^2$ of `{python} accuracy_ridge_raw`. This can also be seen by the scatter plot of the predicted bike usage versus the actual bike usage data in @fig-error-tree. The ridge regression model has a wide spread of prediction for the entire range of bike usage as seen on @fig-error-ridge, yet the decision tree regression model seems to be predicting the lower numbers well, albeit still struggling in predicting higher bike usage with the same precision. Despite this, since the bulk of the data lies within a lower range and this is the range where the model performs well, the model should still be able to provide a reasonably accurate predictions for most of the observations.
 
 # Discussion
 
-From the model results reflects the performance of two different models trained on the dataset: a Ridge Regression model and a Decision Tree Regressor. The Decision Tree model outperforms the Ridge Regression model in explaining the variance in the target variable (79.5% vs. 68.0%), this suggests that the data might have non-linear relationships that the Decision Tree is better able to capture compared to the linear Ridge Regression model.
+From the model results reflects the performance of two different models trained on the dataset: a Ridge Regression model and a Decision Tree Regressor. The Decision Tree model outperforms the Ridge Regression model in explaining the variance in the target variable (`{python} accuracy_tree` vs. `{python} accuracy_ridge`), this suggests that the data might have non-linear relationships that the Decision Tree is better able to capture compared to the linear Ridge Regression model.
 
 While the Decision Tree achieves better performance, it might be more prone to overfitting if the hyperparameters (e.g., max_depth, min_samples_split, and min_samples_leaf) are not carefully tuned. The constraints imposed by the chosen hyperparameters reduce this risk. Ridge Regression, being a linear model, is less prone to overfitting but struggles to model complex, non-linear relationships.
 
