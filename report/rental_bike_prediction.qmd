@@ -40,7 +40,7 @@ In this study, we explore whether a machine learning algorithm can predict the u
 
 ## Data
 
-The data set used in this project is the Seoul bike sharing demand data set created by Dr Sathishkumar V.E., Dr Jangwoo Park, and Dr Yongyun Cho from Sunchon National University (Sathishkumar et al 2020a, 2020b). It was sourced from the UCI Machine Learning Repository (Sathishkumar et al 2020a, 2020b) and can be found [here](https://archive.ics.uci.edu/dataset/560/seoul+bike+sharing+demand). Each row in the data set represents the number of bikes being rented at a specific hour of a day, along with corresponding weather conditions (e.g. temperature, humidity, and rainfall), whether the day was a holiday, and if the bike share program was functioning that day.
+The data set used in this project is the Seoul bike sharing demand data set created by Dr Sathishkumar V.E., Dr Jangwoo Park, and Dr Yongyun Cho from Sunchon National University [@sathishkumar2020using]. It was sourced from the UCI Machine Learning Repository [@dua2017uci] and can be found [here](https://archive.ics.uci.edu/dataset/560/seoul+bike+sharing+demand). Each row in the data set represents the number of bikes being rented at a specific hour of a day, along with corresponding weather conditions (e.g. temperature, humidity, and rainfall), whether the day was a holiday, and if the bike share program was functioning that day.
 
 ## Analysis
 
