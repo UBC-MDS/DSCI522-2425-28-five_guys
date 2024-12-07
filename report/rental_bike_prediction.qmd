@@ -61,20 +61,21 @@ We also plotted a correlation matrix between all the features, we found a strong
 
 ### EDA Analysis
 
-```{python}
+<!-- ```{python}
 #| label: tbl-missing-values
 #| tbl-cap: Number of missing values in every column
 missing_values = pd.read_csv("../results/tables/missing_values.csv")
 Markdown(missing_values.to_markdown(index = False))
-```
+``` -->
 
 
 ```{python}
 #| label: tbl-summary-stats
 #| tbl-cap: Summary statistics of each column 
 summary_stats = pd.read_csv("../results/tables/summary_stats.csv")
-summary_stats = summary_stats.describe()
-Markdown(summary_stats.to_markdown(index = False))
+summary_stats1 = summary_stats.iloc[:,:7]
+summary_stats2 = summary_stats.iloc[:,7:]
+Markdown(summary_stats1.to_markdown(index = False))
 ```
 
 
