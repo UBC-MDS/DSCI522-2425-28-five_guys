@@ -24,6 +24,8 @@ from IPython.display import Markdown, display
 import pickle
 ```
 
+{{< pagebreak >}}
+
 # Summary
 
 In this analysis, we developed two regression model using the decision tree algorithm and the ridge regression algorithm to compare their ability to predict the number of bikes being rented out from a bike share program based on the weather conditions of the hour and general information about the day. After training the model, the model's performances were evaluated on an unseen data set, where the decision tree algorithm achieved a $R^2$ of 0.79 and the ridge regression algorithm obtained a $R^2$ of 0.68. The results indicates that the regression model was able to better capture the key factors influencing the number of bike rented within a reasonable range of accuracy. This makes it a practical tool for forecasting bike demand. By utilizing weather conditions and temporal features, this model can assist bike-sharing programs in optimizing resource allocation, ensuring bikes are available when needed, and improving overall service efficiency. 
@@ -35,6 +37,8 @@ Over the past 2 decades, a growing number of countries worldwide have introduced
 The demand and usage of bike-share programs are known to be heavily influenced by the weather conditions (Eren and Uz 2020). Factors such as temperature, precipitation, humidity, and wind speed all have an affect the number of bikes being used at any given time. Understanding these relationships is crucial for the effective management of bike-share systems.
 
 In this study, we explore whether a machine learning algorithm can predict the usage of bike-share program. It is important to accurately predict usage of the bikes as it gives organizers the ability to plan ahead and make sure there is a stable supply of bikes to match the fluctuating demands. This ensures an efficient allocation of resources and ultimately improve the overall performance of the bike-share programs.
+
+{{< pagebreak >}}
 
 # Methods
 
@@ -59,7 +63,7 @@ We also plotted a correlation matrix between all the features, we found a strong
 
 
 
-### Exploratory Data Analysis
+## Exploratory Data Analysis
 
 After the train and test set split, we carried out a very comprehensive EDA and found that there were no missing values in the dataset, eliminating the need for any preprocessing, imputation or data cleaning related to missing data. Hence, we delved deeper into understanding the distribution on the training data set.
 <!-- ```{python}
@@ -98,7 +102,9 @@ Markdown(summary_stats1.to_markdown(index = False))
 
 ![Correlation plots for the different features in the training data set.](../results/figures/corr_chart.png){#fig-corr_chart width=70%}
 
-### Modeling
+{{< pagebreak >}}
+
+## Modeling
 
 
 We implemented two regression model with a decision tree regressor algorithm and a ridge regression algorithm. To optimize the model performance in predicting bike usage, we performed a randomized 5-fold cross validation using the $R^2$ as the performance metric to evaluate and select the best value for hyperparameters. For the decision tree regressor algorithm, we specifically tuned the maximum depth of the tree, the minimum number of samples required to split a node, and the minimum samples required per leaf. For the ridge regression algorithm, the alpha value was tuned during the cross validation. Based on the analysis, we found that the optimal decision tree regressor model configuration had a maximum depth of 20, a minimum of 10 sample to split a node, and a minimum 4 samples per leaf. Whereas for the ridge regression algorithm, the optimal alpha value was 10.
