@@ -46,7 +46,7 @@ The data set used in this project is the Seoul bike sharing demand data set crea
 
 We developed compared two regression model that predicts the number of bikes being rented out for a specific hour of the day one is built using the decision tree regressor algorithm another using the ridge regression algorithm. All variables, except for `dew point temp`, from the original data set was used to fit the model. The data was split into training and test set at a 70:30 ratio. The `Date` column from the original data set was split up into temporal features of `Year`, `Month`, `Day`, and `Weekday`. These features along with  `Hour` and `Seasons` will be treated as categorical features and will be encoded by One-hot encoding before fitting to the model. In addtion, features that indicated events (`Holiday`, `Functioning Day`) were transformed and treated so they can be treated as binary categorical features. All the other numeric features that were related to the weather will be scaled using standardization just before model fitting. For the decision regressor algorithm the hyperparameters `tree depth`, `minimum samples per split`, and `minimum sample per leaf` were optimized based on the $R^2$ score through a 5-fold cross-validation. For the ridge regression algorithm, the hyperparameter
 
-The Python programming language [@Python] and the following Python packages were used to perform the analysis: numpy [@harris2020array], Pandas [@mckinney2010data], altair [@altair], vegafusion [@kruchten2022vegafusion], scikit-learn [@pedregosa2011scikit]. The code used to perform the analysis and create this report can be found here: https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction 
+The Python programming language [@Python] and the following Python packages were used to perform the analysis: numpy [@harris2020array], Pandas [@mckinney2010data], altair [@altair], vegafusion [@kruchten2022vegafusion], scikit-learn [@pedregosa2011scikit]. The code used to perform the analysis and create this report can be found here: [Rental Bike Prediction Repo](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction) 
 
 # Results
 
@@ -54,13 +54,14 @@ To identify which features may be useful to predict the number of bikes being us
 
 When plotting bike usage against features such as the hour of the day, seasonality, temperature, and holiday status, we noticed non-uniform patterns in their distribution with some categories have little overlap between each other. We observed that there is a spike in the number of bikes rented in summer seasons and also there is a spike in the morning and evening of each day observed. This suggests that these features might serve as strong predictors on bike usage. 
 
-We also plotted a correlation matrix between all the features, we found a strong correlation between temperature and dew point temperature. Given that dew point temperature values closely mirror those of temperature, we decided to drop dew point temperature from the model. The remaining features showed relatively weaker correlations, so we chose not to remove them as they may offer valueable information for predicting bike demand.
+We also plotted a correlation matrix between all the features, we found a strong correlation between temperature and dew point temperature. Given that dew point temperature values closely mirror those of temperature, we decided to drop dew point temperature from the model. The remaining features showed relatively weaker correlations, so we chose not to remove them as they may offer valuable information for predicting bike demand.
 
 
 
 
-### EDA Analysis
+### Exploratory Data Analysis
 
+After the train and test set split, we carried out a very comprehensive EDA and found that there were no missing values in the dataset, eliminating the need for any preprocessing, imputation or data cleaning related to missing data. Hence, we delved deeper into understanding the distribution on the training data set.
 <!-- ```{python}
 #| label: tbl-missing-values
 #| tbl-cap: Number of missing values in every column
@@ -71,7 +72,7 @@ Markdown(missing_values.to_markdown(index = False))
 
 ```{python}
 #| label: tbl-summary-stats
-#| tbl-cap: Summary statistics of each column 
+#| tbl-cap: Summary statistics of key columns 
 summary_stats = pd.read_csv("../results/tables/summary_stats.csv")
 summary_stats1 = summary_stats.iloc[:,:7]
 summary_stats2 = summary_stats.iloc[:,7:]
@@ -79,35 +80,25 @@ Markdown(summary_stats1.to_markdown(index = False))
 ```
 
 
-![Distribution of Rented Bike Count](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=60%}
+![Distribution of Rented Bike Count](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=70%}
 
 
-![Average Rented Bike Count by Hour](../results/figures/hourly_rental_count.png){#fig-hourly-rental-count width=60%}
+![Average Rented Bike Count by Hour](../results/figures/hourly_rental_count.png){#fig-hourly-rental-count width=70%}
 
 
-![Average Rented Bike Count by Season](../results/figures/season_rental_count.png){#fig-season-rental-count width=60%}
+![Average Rented Bike Count by Season](../results/figures/season_rental_count.png){#fig-season-rental-count width=70%}
 
+![Number of bike rentals at different temperatures for different seasons](../results/figures/season_temp_count.png){#fig-season-temp-count width=70%}
 
-![Number of bike rentals at different temperatures for different seasons](../results/figures/season_temp_count.png){#fig-season-temp-count width=60%}
+![Summary distribution of bike rentals between holidays and non holidays.](../results/figures/holiday_dist.png){#fig-holiday_dist width=70%}
 
+![Distribution of number of rented bikes.](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=70%}
 
-![Summary distribution of bike rentals between holidays and non holidays.](../results/figures/holiday_dist.png){#fig-holiday_dist width=60%}
+![Mean number of bikes being rented at different time of the day.](../results/figures/season_hourly.png){#fig-season-hourly width=70%}
 
+![Correlation plots for the different features in the training data set.](../results/figures/corr_chart.png){#fig-corr_chart width=70%}
 
-### 2. Data Preprocessing 
-
-
-Table 4. Overview of the training data set.
-
-
-![Distribution of number of rented bikes.](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=60%}
-
-
-![Mean number of bikes being rented at different time of the day.](../results/figures/season_hourly.png){#fig-season-hourly width=60%}
-
-![Correlation plots for the different features in the training data set.](../results/figures/corr_chart.png){#fig-corr_chart width=60%}
-
-### 3. Modeling
+### Modeling
 
 
 We implemented two regression model with a decision tree regressor algorithm and a ridge regression algorithm. To optimize the model performance in predicting bike usage, we performed a randomized 5-fold cross validation using the $R^2$ as the performance metric to evaluate and select the best value for hyperparameters. For the decision tree regressor algorithm, we specifically tuned the maximum depth of the tree, the minimum number of samples required to split a node, and the minimum samples required per leaf. For the ridge regression algorithm, the alpha value was tuned during the cross validation. Based on the analysis, we found that the optimal decision tree regressor model configuration had a maximum depth of 20, a minimum of 10 sample to split a node, and a minimum 4 samples per leaf. Whereas for the ridge regression algorithm, the optimal alpha value was 10.
