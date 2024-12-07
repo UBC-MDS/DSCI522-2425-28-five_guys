@@ -59,7 +59,7 @@ We also plotted a correlation matrix between all the features, we found a strong
 
 
 
-### 1.6 EDA Analysis
+### EDA Analysis
 
 ```{python}
 #| label: tbl-missing-values
@@ -73,6 +73,7 @@ Markdown(missing_values.to_markdown(index = False))
 #| label: tbl-summary-stats
 #| tbl-cap: Summary statistics of each column 
 summary_stats = pd.read_csv("../results/tables/summary_stats.csv")
+summary_stats = summary_stats.describe()
 Markdown(summary_stats.to_markdown(index = False))
 ```
 
