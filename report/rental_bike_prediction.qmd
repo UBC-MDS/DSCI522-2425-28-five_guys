@@ -14,6 +14,7 @@ execute:
   echo: false
   warning: false
 editor: source
+bibliography: references.bib
 ---
 
 
@@ -45,7 +46,7 @@ The data set used in this project is the Seoul bike sharing demand data set crea
 
 We developed compared two regression model that predicts the number of bikes being rented out for a specific hour of the day one is built using the decision tree regressor algorithm another using the ridge regression algorithm. All variables, except for `dew point temp`, from the original data set was used to fit the model. The data was split into training and test set at a 70:30 ratio. The `Date` column from the original data set was split up into temporal features of `Year`, `Month`, `Day`, and `Weekday`. These features along with  `Hour` and `Seasons` will be treated as categorical features and will be encoded by One-hot encoding before fitting to the model. In addtion, features that indicated events (`Holiday`, `Functioning Day`) were transformed and treated so they can be treated as binary categorical features. All the other numeric features that were related to the weather will be scaled using standardization just before model fitting. For the decision regressor algorithm the hyperparameters `tree depth`, `minimum samples per split`, and `minimum sample per leaf` were optimized based on the $R^2$ score through a 5-fold cross-validation. For the ridge regression algorithm, the hyperparameter
 
-The Python programming language (Van Rossum and Drake 2009) and the following Python packages were used to perform the analysis: numpy (Harris et al. 2020), Pandas (McKinney 2010), altair (VanderPlas, 2018), vegafusion(Kruchten et al. 2022), scikit-learn (Pedregrosa et al. 2011). The code used to perform the analysis and create this report can be found here: https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction 
+The Python programming language [@Python] and the following Python packages were used to perform the analysis: numpy [@harris2020array], Pandas [@mckinney2010data], altair [@altair], vegafusion [@kruchten2022vegafusion], scikit-learn [@pedregosa2011scikit]. The code used to perform the analysis and create this report can be found here: https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction 
 
 # Results
 
@@ -126,26 +127,3 @@ The dataset includes both numerical and categorical variables (e.g., “Seasons,
 The Decision Tree Regressor demonstrates better performance than Ridge Regression in terms of $R^2$ score, indicating that it better explained the variance in bike rentals, highlighting the importance of non-linear models for this dataset. However, proper interpretability, regularization, and validation are necessary to ensure the model’s robustness. The dataset’s complexity suggests that exploring more advanced ensemble methods could yield even better results.
 
 # References
-
-Dua, D. and Graff, C. (2017) UCI Machine Learning Repository. University of California, Irvine, School of Information; Computer Sciences. http://archive.ics.uci.edu/ml.
-
-Eren, E. and Uz, V.E. (2020) A review on bike-sharing: The factors affecting bike-sharing demand. Sustainable Cities and Society 54:101882.
-
-Harris, C.R. et al. (2020) Array programming with NumPy. Nature, 585:357–362.
-
-Kruchten, N., Mease, J., and Moritz, D. (2022) VegaFusion: Automatic Server-Side Scaling for Interactive Vega Visualizations. IEEE Visualization and Visual Analytics (VIS), 2022: 11-15. doi: 10.1109/VIS54862.2022.00011.
-
-McKinney, W. (2010) Data Structures for Statistical Computing in Python. In Proceedings of the 9th Python in Science Conference, edited by Stéfan van der Walt and Jarrod Millman, 51–56.
-
-Pedregosa, F. et al. (2011) Scikit-learn: Machine learning in Python. Journal of machine learning research, 12(Oct):2825–2830.
-
-Sathishkumar V.E., Park, J., and Cho, Y. (2020) Using data mining techniques for bike sharing demand prediction in Metropolitan city. Computer Communications, 153:353-366.
-
-Sathishkumar V.E. and Cho, Y. (2020) A rule-based model for Seoul Bike sharing demand prediction using Weather data. European Journal of Remote Sensing, 52(1):166-183.
-
-Shaheen, S.A., Guzman, S., and Zhang, H. (2010). Bikesharing in Europe, the Americas, and Asia: Past, Present, and Future. Transportation Research Record, 2143(1):159-167. https://doi.org/10.3141/2143-20 
-
-VanderPlas, J. et al. (2018) Altair: Interactive statistical visualizations for python. Journal of open source software, 3(32):1057.
-
-Van Rossum, G. and Drake, F.L. (2009) Python 3 Reference Manual. CreateSpace, Scotts Valley, CA.
-
