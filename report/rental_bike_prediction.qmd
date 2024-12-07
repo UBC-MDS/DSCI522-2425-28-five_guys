@@ -71,7 +71,7 @@ We also plotted a correlation matrix between all the features, we found a strong
 
 ## Exploratory Data Analysis
 
-After the train and test set split, we carried out a very comprehensive EDA and found that there were no missing values in the dataset, eliminating the need for any preprocessing, imputation or data cleaning related to missing data. Hence, we delved deeper into understanding the distribution on the training data set.
+After the train and test set split, we carried out a very comprehensive EDA and found that there were no missing values in the dataset, eliminating the need for any preprocessing, imputation or data cleaning related to missing data. Hence, we delved deeper into understanding the distribution of the training data set which we have the summary statistics in @tbl-summary-stats.
 <!-- ```{python}
 #| label: tbl-missing-values
 #| tbl-cap: Number of missing values in every column
