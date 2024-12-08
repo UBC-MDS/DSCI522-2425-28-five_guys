@@ -84,7 +84,7 @@ Markdown(missing_values.to_markdown(index = False))
 #| label: tbl-summary-stats
 #| tbl-cap: Summary statistics of key columns 
 summary_stats = pd.read_csv("../results/tables/summary_stats.csv")
-summary_stats1, summary_stats2 = summary_stats.iloc[:,:7], summary_stats.iloc[:,7:]
+summary_stats1, summary_stats2 = summary_stats.iloc[:,:7].round(2), summary_stats.iloc[:,7:].round(2)
 Markdown(summary_stats1.to_markdown(index = False))
 ```
 
