@@ -60,7 +60,7 @@ def main(training_data, preprocessor, pipeline_to, seed):
     ridge_search = RandomizedSearchCV(
         estimator=ridge_pipeline,
         param_distributions =  ridge_param_grid,
-        cv = 10, n_iter = 20, random_state=seed)
+        cv = 10, n_iter = 10, random_state=seed)
 
     tree_search = RandomizedSearchCV(
         estimator=tree_pipeline,

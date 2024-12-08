@@ -71,7 +71,7 @@ python scripts/split_n_preprocessing.py \
     --seed=522
 	
 python scripts/eda.py \
-    --processed_training_data=data/processed/bike_train.csv \ 
+    --processed_training_data=data/processed/bike_train.csv \
     --plot_to=results/figures --table_to=results/tables
 
 python scripts/fit_rental_bike_prediction.py \
