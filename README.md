@@ -12,7 +12,7 @@ The data set that was used in this project is dataset contains count of public b
 
 ## Report
 
-The comprehensive report and the analysis of the Seoul Bike Share Prediction can be found [here](https://ubc-mds.github.io/DSCI522-2425-28-rental-bike-prediction/index.html).
+The comprehensive report and the analysis of the Seoul Bike Share Prediction can be found [here](https://ubc-mds.github.io/DSCI522-2425-28-rental-bike-prediction/report/rental_bike_prediction.html).
 
 ## Dependencies
 - [Docker](https://www.docker.com/) 
