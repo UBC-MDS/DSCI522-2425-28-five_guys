@@ -14,50 +14,38 @@ The data set that was used in this project is dataset contains count of public b
 
 The comprehensive report and the analysis of the Seoul Bike Share Prediction can be found [here](https://ubc-mds.github.io/DSCI522-2425-28-rental-bike-prediction/index.html).
 
+## Dependencies
+- [Docker](https://www.docker.com/) 
+- [Jupyter Lab](https://jupyter.org/install) (Version 4.2.4 or Higher)
+- [Conda Lock](https://github.com/conda/conda-lock) (Version 2.5.7 or Higher)
+- [Conda](https://anaconda.org/anaconda/conda) (Version 24.9.1 or Higher)
 
 ## Usage
 
-To run this project, install the virtual environment from the root of this repository, and run below command:
+### Setup
 
-```
-conda-lock install --name seoul-bike-share-predictor environments/conda-lock.yml
-```
+> If you are using Windows or Mac, make sure Docker Desktop is running.
 
-Then activate the environment using:
+1. Clone this GitHub repository.
 
-```bash
-conda activate seoul-bike-share-predictor
-```
+### Running the analysis
 
-Instantiate jupyter lab from the root of this repository to run the analysis, run below command to begin:
+1. Navigate to the root of this project on your computer using the
+   command line and enter the following command:
 
-```
-jupyter lab
+``` 
+docker compose up
 ```
 
-Navigate to the project folder in jupyper lab and open the `rental_bike_prediction.ipynb` notebook and under Select Kernel choose "Python [conda env:seoul-bike-share-predictor]".
+2. In the terminal, look for a URL that starts with 
+`http://127.0.0.1:8888/lab?token=` 
+(for an example, see the highlighted text in the terminal below). 
+Copy and paste that URL into your browser.
 
-After selecting the appropriate kernel, go under the "Kernel" menu and click "Restart Kernel and Run All Cells..."
+<img src="img/jupyter-container-web-app-launch-url.png" width=400>
 
-##### (Optional)
- If you cannot use the `Python [conda env:seoul-bike-share-predictor]` kernel, please run the following code:
 
-```bash
-conda install nb_conda_kernels
-```
-
-## Using Docker (Optional)
-Docker is used to create reproducible, shareable, and shippable computing environments for our analysis. This is particularly useful if you encounter issues installing the required packages or if you prefer not to install them on your local computer.
-To use Docker, visit their website [here](https://www.docker.com/), create an account, and download and install a version that is compatible with your computer. 
-Once Docker is installed, ensure it is running. 
-1) Navigate to the directory where you cloned our repository, and then run the following command in your terminal:
-```bash
-docker-compose up
-```
-
-2) While your Docker container is running, you may follow the instructions within it to run the analysis through it. Specifically, you want to copy the link that starts with "http://127.0.0.1:8888/lab?token=..." your browser to access a Jupyter Lab instance running on the Docker container. This instance has all the required dependencies pre-installed.
-
-3) To run the analysis, open a terminal in the jupyter lab and run the following commands:
+3. To run the analysis, open a terminal in JupyterLab and run the following commands sequentially:
 
 ```bash
 python scripts/data_loading_n_validation.py \
@@ -88,20 +76,35 @@ python scripts/evaluate_rental_bike_prediction.py \
     --seed=522 \
     --plot_to=results/figures
 ```
-4) After running the analysis, to shut down the container and clean up its resources, press `Ctrl+C` in the terminal where the container was started, then run `docker compose rm`.
 
-## Dependencies
 
-- `conda` (version 24.9.1 or higher)
-- `conda-lock` (version 2.5.7 or higher)
-- `jupyterlab` (version 4.2.4 0r higher)
-- `Python` and other packages listed in [Environment File](environment.yml)
+### Clean up
+
+1. To shut down the container and clean up the resources, 
+type `Cntrl` + `C` in the terminal
+where you launched the container, and then type `docker compose rm`
+
+### Adding a new dependency
+
+1. Add the dependency to the `environment.yml` file on a new branch.
+
+2. Run `conda-lock -k explicit --file environment.yml -p linux-64` to update the `conda-linux-64.lock` file.
+
+2. Re-build the Docker image locally to ensure it builds and runs properly.
+
+3. Push the changes to GitHub. A new Docker
+   image will be built and pushed to Docker Hub automatically.
+   It will be tagged with the SHA for the commit that changed the file.
+
+4. Update the `docker-compose.yml` file on your branch to use the new
+   container image (make sure to update the tag specifically).
+
+5. Send a pull request to merge the changes into the `main` branch. 
 
 
 ## License
 
 The Seoul Bike Share Predictor software code contained in this project are licensed under MIT license. See the [licence file](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/blob/main/LICENSE) here for more information. The project report is licensed under [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/) License. See the license file for more information. For proper referencing, when re-using any part of this code and/or report, please include the link to this webpage.
-
 
 ## References
 
