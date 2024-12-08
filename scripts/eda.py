@@ -27,7 +27,7 @@ def main(processed_training_data, plot_to, table_to):
 
     # Summary statistics
     summary_stats = df.describe()
-    summary_stats_table = summary_stats.loc['mean':'max']
+    summary_stats_table = summary_stats.loc['mean':'max'].reset_index()
     summary_stats_table.to_csv(os.path.join(table_to, "summary_stats.csv"), index=False)
 
     # plot distribution of rented bike count
