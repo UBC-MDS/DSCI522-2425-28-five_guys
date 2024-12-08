@@ -19,6 +19,8 @@ dependencies:
   - jupyter_contrib_nbextensions=0.7.0
   - click=8.1.7
   - tabulate=0.9.0
+  - pandoc=3.2
+  - quarto=1.5.57
   - pip
   - pip:
       - deepchecks==0.18.1
