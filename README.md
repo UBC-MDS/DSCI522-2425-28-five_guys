@@ -87,6 +87,9 @@ python scripts/evaluate_rental_bike_prediction.py \
     --results-to=results/tables \
     --seed=522 \
     --plot_to=results/figures
+
+quarto render report/rental_bike_prediction.qmd --to html
+quarto render report/rental_bike_prediction.qmd --to pdf
 ```
 4) After running the analysis, to shut down the container and clean up its resources, press `Ctrl+C` in the terminal where the container was started, then run `docker compose rm`.
 
