@@ -4,6 +4,10 @@ import click
 import altair as alt
 import pandas as pd
 import altair_ally as aly
+import warnings
+
+# Suppress specific Altair deprecation warnings
+warnings.filterwarnings("ignore", category=alt.utils.deprecation.AltairDeprecationWarning)
 
 @click.command()
 @click.option('--processed_training_data', type=str, help="Path to processed training data")
