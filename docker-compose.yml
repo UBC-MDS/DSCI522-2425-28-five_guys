@@ -1,6 +1,6 @@
 services:
   analysis-env:
-    image: abolade325/rental-bike-pred:latest
+    image: abolade325/rental-bike-pred:3babeb2
     ports:
       - "8888:8888"
     volumes:
