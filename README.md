@@ -42,7 +42,7 @@ docker compose up
 (for an example, see the highlighted text in the terminal below). 
 Copy and paste that URL into your browser.
 
-<img src="img/jupyter-container-web-app-launch-url.png" width=400>
+<img src="img/jupyter-container-web-app-launch-url.png" height=100 width=800>
 
 
 3. To run the analysis, open a terminal in JupyterLab and run the following commands sequentially:
