@@ -35,7 +35,7 @@ def read_zip(url, directory):
 
 
 def validate_csv_schema(file_path):
-    # Try encoding 'ISO-8859-1' at this time 
+    # Try encoding 'ISO-8859-1' at this time, it works for all of us 
     try:
         df = pd.read_csv(file_path, encoding='ISO-8859-1')
     except Exception as e:
