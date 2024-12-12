@@ -1,6 +1,5 @@
-# evaluate_breast_cancer_classifier.py
-# author: Tiffany Timbers
-# date: 2023-11-27
+# evaluate_rental_bike_prediction.py
+# date: 2024-12-05
 
 import click
 import os
