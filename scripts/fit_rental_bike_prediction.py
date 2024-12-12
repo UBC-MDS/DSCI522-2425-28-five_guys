@@ -1,4 +1,5 @@
 # fit_bike_usage_regressor.py
+# date: 2024-12-05
 
 import click
 import os
@@ -15,7 +16,6 @@ from sklearn.tree import DecisionTreeRegressor
 @click.command()
 @click.option('--training-data', type=str, help="Path to training data")
 @click.option('--preprocessor', type=str, help="Path to preprocessor object")
-# @click.option('--columns-to-drop', type=str, help="Optional: columns to drop")
 @click.option('--pipeline-to', type=str, help="Path to directory where the pipeline object will be written to")
 @click.option('--seed', type=int, help="Random seed", default=123)
 
@@ -28,10 +28,6 @@ def main(training_data, preprocessor, pipeline_to, seed):
     # read in data & preprocessor
     rental_bike_train = pd.read_csv(training_data)
     rental_bike_preprocessor = pickle.load(open(preprocessor, "rb"))
-    
-    # if columns_to_drop:
-    #     to_drop = pd.read_csv(columns_to_drop).feats_to_drop.tolist()
-    #     rental_bike_train = rental_bike_train.drop(columns=to_drop)
 
     # Ridge Regression Pipeline
     ridge_pipeline = make_pipeline(

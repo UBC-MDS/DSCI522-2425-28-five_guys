@@ -1,5 +1,6 @@
-# scripts/data_pipeline.py
-# author: xiao hu
+# data_pipeline.py
+# date: 2024-12-05
+
 import os
 import zipfile
 import io
