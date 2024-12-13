@@ -1,5 +1,20 @@
+<<<<<<< HEAD
+
 # split_n_preprocessing.py
 # date: 2024-12-05
+
+import os
+import click
+import pandas as pd
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from src.clean_and_engineer_data import clean_and_engineer_data
+from src.split_data import split_data
+from src.create_preprocessor import create_preprocessor
+from src.save_object import save_object
+=======
+# split_n_preprocessing.py
+>>>>>>> parent of d9a880b (Modularize the function)
 
 import click
 import os
@@ -50,6 +65,7 @@ def main(raw_data, data_to, preprocessor_to, seed):
     df = df.drop(['Date'], axis=1)  # Exclude unwanted columns
 
     # Convert to categorical
+    # df['Hour'] = df['Hour'].astype(str)
     df['Seasons'] = df['Seasons'].astype(str)
 
     # Converting to binary for EDA and for values to feed into model
