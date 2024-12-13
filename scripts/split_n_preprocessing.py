@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # split_n_preprocessing.py
 # date: 2024-12-05
@@ -11,39 +12,81 @@ from src.clean_and_engineer_data import clean_and_engineer_data
 from src.split_data import split_data
 from src.create_preprocessor import create_preprocessor
 from src.save_object import save_object
+=======
+# split_n_preprocessing.py
+>>>>>>> parent of d9a880b (Modularize the function)
 
+import click
+import os
+import numpy as np
+import pandas as pd
+import pickle
+from sklearn.model_selection import train_test_split
+from sklearn import set_config
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.compose import make_column_transformer
 
 @click.command()
 @click.option('--raw_data', type=str, help="Path to raw data")
 @click.option('--data_to', type=str, help="Path to directory where processed data will be written to")
 @click.option('--preprocessor_to', type=str, help="Path to directory where the preprocessor object will be written to")
 @click.option('--seed', type=int, help="Random seed", default=123)
+
 def main(raw_data, data_to, preprocessor_to, seed):
-    """
-    This script reads in the cleaned up data, splits the data into train and test sets,
-    preprocesses it for exploratory data analysis, and saves the preprocessor used in
-    the model training script.
-    """
-    # Set the random seed for reproducibility
+    '''
+    This script reads in the cleaned up data and splits the data to train and test sets. The data gets
+    preprocessed to be ready for exploratory data anaylsis and saves the preprocessor used in the model
+    training script
+    '''
+    np.random.seed(seed)
+    set_config(transform_output="pandas")
     df = pd.read_csv(raw_data, encoding="latin-1")
 
-    # Step 1: Clean and engineer the data
-    df = clean_and_engineer_data(df)
+    # renaming columns
+    df = df.rename(columns={
+    'Temperature(°C)': 'Temperature',
+    'Humidity(%)': 'Humidity',
+    'Rainfall(mm)': 'Rainfall',
+    'Snowfall (cm)': 'Snowfall',
+    'Wind speed (m/s)': 'Wind speed',
+    'Visibility (10m)': 'Visibility',
+    'Solar Radiation (MJ/m2)': 'Radiation',
+    'Dew point temperature(°C)': 'Dew point temperature'})
 
-    # Step 2: Split the data into training and testing sets
-    bike_train, bike_test = split_data(df, test_size=0.3, random_state=seed)
+    # Convert the Date column in Datetime Dtype
+    df['Date'] = pd.to_datetime(df['Date'], format='mixed')
 
-    # Save the train and test datasets
-    os.makedirs(data_to, exist_ok=True)
+    # Extract features from the Date column
+    df['Year'] = df['Date'].dt.year
+    df['Month'] = df['Date'].dt.month
+    df['Day'] = df['Date'].dt.day
+    df['Weekday'] = df['Date'].dt.weekday
+    df = df.drop(['Date'], axis=1)  # Exclude unwanted columns
+
+    # Convert to categorical
+    # df['Hour'] = df['Hour'].astype(str)
+    df['Seasons'] = df['Seasons'].astype(str)
+
+    # Converting to binary for EDA and for values to feed into model
+    df['Holiday'] = df['Holiday'].apply(lambda x: 1 if x == "Holiday" else 0)
+    df['Functioning Day'] = df['Functioning Day'].apply(
+    lambda x: 1 if x == "Yes" else 0)
+
+    # train-test split
+    bike_train, bike_test = train_test_split(df, test_size=0.3, random_state=123)
     bike_train.to_csv(os.path.join(data_to, "bike_train.csv"), index=False)
     bike_test.to_csv(os.path.join(data_to, "bike_test.csv"), index=False)
 
-    # Step 3: Create the preprocessor
-    bike_preprocessor = create_preprocessor()
+    # Define column transformer for preprocessing
+    bike_preprocessor = make_column_transformer(
+        # One-hot encode Hour, Seasons, Year, Month and Day
+        (OneHotEncoder(sparse_output=False), ['Hour', 'Seasons', 'Year', 'Month', 'Day']),
+        ("drop", ['Dew point temperature']),
+        remainder= StandardScaler()  # Leave other columns as they are
+    )
 
-    # Save the preprocessor object
-    os.makedirs(preprocessor_to, exist_ok=True)
-    save_object(bike_preprocessor, os.path.join(preprocessor_to, "bike_preprocessor.pickle"))
+    pickle.dump(bike_preprocessor, open(os.path.join(preprocessor_to, "bike_preprocessor.pickle"), "wb"))
 
 
 if __name__ == '__main__':
