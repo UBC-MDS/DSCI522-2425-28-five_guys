@@ -22,6 +22,7 @@ dependencies:
   - pandoc=3.2
   - quarto=1.5.57
   - pytest=8.3.4
+  - make=4.3
   - pip
   - pip:
       - deepchecks==0.18.1
