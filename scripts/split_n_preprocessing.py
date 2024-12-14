@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-
-# split_n_preprocessing.py
-# date: 2024-12-05
-
-import os
-import click
-import pandas as pd
-import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from src.clean_and_engineer_data import clean_and_engineer_data
-from src.split_data import split_data
-from src.create_preprocessor import create_preprocessor
-from src.save_object import save_object
-=======
-# split_n_preprocessing.py
->>>>>>> parent of d9a880b (Modularize the function)
-
 import click
 import os
 import numpy as np
