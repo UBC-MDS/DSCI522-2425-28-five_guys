@@ -22,9 +22,24 @@ def raw_data():
         'Functioning Day': ['Yes', 'No']
     })
 
-def test_clean_and_engineer_data(raw_data):
+def test_column_renaming(raw_data):
     processed_data = clean_and_engineer_data(raw_data)
-    assert 'Year' in processed_data.columns
-    assert 'Month' in processed_data.columns
-    assert 'Day' in processed_data.columns
-    assert processed_data['Holiday'].isin([0, 1]).all()
+    expected_columns = ['Temperature', 'Humidity', 'Rainfall', 'Snowfall', 'Wind speed',
+                        'Visibility', 'Radiation', 'Dew point temperature', 'Year', 
+                        'Month', 'Day', 'Weekday', 'Seasons', 'Holiday', 'Functioning Day']
+    assert all(col in processed_data.columns for col in expected_columns), "Column renaming failed."
+
+def test_date_conversion(raw_data):
+    processed_data = clean_and_engineer_data(raw_data)
+    assert processed_data['Year'].iloc[0] == 2024
+    assert processed_data['Month'].iloc[0] == 1
+    assert processed_data['Day'].iloc[0] == 1
+    assert processed_data['Weekday'].iloc[0] == 0, "Incorrect weekday for 2024-01-01"
+
+def test_binary_encoding(raw_data):
+    processed_data = clean_and_engineer_data(raw_data)
+    assert processed_data['Holiday'].iloc[0] == 1, "Holiday binary encoding failed."
+    assert processed_data['Holiday'].iloc[1] == 0, "Holiday binary encoding failed."
+    assert processed_data['Functioning Day'].iloc[0] == 1, "Functioning Day binary encoding failed."
+    assert processed_data['Functioning Day'].iloc[1] == 0, "Functioning Day binary encoding failed."
+
