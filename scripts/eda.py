@@ -44,6 +44,7 @@ def main(processed_training_data, plot_to, table_to):
             )
     rented_bike_hist.save(os.path.join(plot_to, "rented_bike_count.png"),
                           scale_factor=2.0)
+    
     # plot hourly average rented bike count
     hourly_avg_chart = alt.Chart(df).mark_line(point=True).encode(
         x=alt.X('Hour:O', title='Hour of Day'),
