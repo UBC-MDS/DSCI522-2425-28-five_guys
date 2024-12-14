@@ -1,3 +1,6 @@
+# split_n_preprocessing.py
+# date: 2024-12-05
+
 import click
 import os
 import numpy as np
@@ -47,7 +50,6 @@ def main(raw_data, data_to, preprocessor_to, seed):
     df = df.drop(['Date'], axis=1)  # Exclude unwanted columns
 
     # Convert to categorical
-    # df['Hour'] = df['Hour'].astype(str)
     df['Seasons'] = df['Seasons'].astype(str)
 
     # Converting to binary for EDA and for values to feed into model
