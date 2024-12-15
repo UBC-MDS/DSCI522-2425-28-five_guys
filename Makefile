@@ -48,7 +48,8 @@ results/models/tree_pipeline.pickle: scripts/fit_rental_bike_prediction.py data/
 
 # Evaluates the rental bike prediction models on the test data
 results/figures/prediction_error_ridge.png \
-results/figures/prediction_error_tree.png: scripts/evaluate_rental_bike_prediction.py \
+results/figures/prediction_error_tree.png \
+results/tables/test_scores.csv: scripts/evaluate_rental_bike_prediction.py \
 data/processed/bike_test.csv \
 results/models/ridge_pipeline.pickle \
 results/models/tree_pipeline.pickle
@@ -61,11 +62,43 @@ results/models/tree_pipeline.pickle
 		--plot_to=results/figures
 
 report/rental_bike_prediction.html \
-report/rental_bike_prediction.pdf: report/rental_bike_prediction.qmd
+report/rental_bike_prediction.pdf: report/rental_bike_prediction.qmd \
+report/references.bib \
+results/tables/test_scores.csv \
+results/tables/summary_stats.csv \
+results/models/ridge_pipeline.pickle \
+results/models/tree_pipeline.pickle \
+results/figures/prediction_error_ridge.png \
+results/figures/prediction_error_tree.png
 	quarto render report/rental_bike_prediction.qmd --to html
 	quarto render report/rental_bike_prediction.qmd --to pdf
 
 # Removes all generated outputs from the data pipeline
+
+clean-dats :
+	rm -rf data/raw/*
+	rm -r data/processed/bike_train.csv \
+			data/processed/bike_test.csv
+
+clean-figs :
+	rm -f results/figures/rented_bike_count.png \
+			results/figures/hourly_rental_count.png \
+			results/figures/season_rental_count.png \
+			results/figures/season_temp_count.png \
+			results/figures/holiday_dist.png \
+			results/figures/season_hourly.png \
+			results/figures/prediction_error_ridge.png \
+			results/figures/prediction_error_tree.png
+
+clean-tables :
+	rm -f results/tables/summary_stats.csv \
+			results/tables/missing_values.csv \
+			results/tables/test_scores.csv
+
+clean models :
+	rm -f results/models/ridge_pipeline.pickle \
+			results/models/tree_pipeline.pickle 
+
 clean:
 	rm -rf data/raw/*
 	rm -r data/processed/bike_train.csv \
