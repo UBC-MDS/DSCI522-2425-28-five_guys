@@ -12,7 +12,9 @@ data/raw/SeoulBikeData.csv: scripts/data_loading_n_validation.py
 	    --write_to=data/raw
 
 # Splits and preprocesses the raw data into training and testing sets
-data/processed/bike_train.csv data/processed/bike_test.csv results/models/bike_preprocessor.pickle: scripts/split_n_preprocessing.py data/raw/SeoulBikeData.csv
+data/processed/bike_train.csv \
+data/processed/bike_test.csv \
+results/models/bike_preprocessor.pickle: scripts/split_n_preprocessing.py data/raw/SeoulBikeData.csv
 	python scripts/split_n_preprocessing.py \
 	    --raw_data=data/raw/SeoulBikeData.csv \
 	    --data_to=data/processed \
@@ -20,13 +22,22 @@ data/processed/bike_train.csv data/processed/bike_test.csv results/models/bike_p
 	    --seed=522
 
 # Performs Exploratory Data Analysis (EDA) and generates plots and tables
-results/tables/missing_values.csv results/tables/summary_stats.csv results/figures/rented_bike_count.png results/figures/hourly_rental_count.png results/figures/season_rental_count.png results/figures/season_temp_count.png results/figures/holiday_dist.png results/figures/season_hourly.png results/figures/corr_chart.png: scripts/eda.py data/processed/bike_train.csv
+results/tables/missing_values.csv \
+results/tables/summary_stats.csv \
+results/figures/rented_bike_count.png \
+results/figures/hourly_rental_count.png \
+results/figures/season_rental_count.png \
+results/figures/season_temp_count.png \
+results/figures/holiday_dist.png \
+results/figures/season_hourly.png \
+results/figures/corr_chart.png: scripts/eda.py data/processed/bike_train.csv
 	python scripts/eda.py \
 		--processed_training_data=data/processed/bike_train.csv \
 		--plot_to=results/figures --table_to=results/tables
 
-# Fits the Ridge regression model for rental bike prediction
-results/models/ridge_pipeline.pickle: scripts/fit_rental_bike_prediction.py data/processed/bike_train.csv results/models/bike_preprocessor.pickle
+# Fits the Ridge and Tree regression model for rental bike prediction
+results/models/ridge_pipeline.pickle \
+results/models/tree_pipeline.pickle: scripts/fit_rental_bike_prediction.py data/processed/bike_train.csv results/models/bike_preprocessor.pickle
 	python scripts/fit_rental_bike_prediction.py \
 		--training-data=data/processed/bike_train.csv \
 		--preprocessor=results/models/bike_preprocessor.pickle \
