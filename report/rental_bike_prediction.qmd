@@ -92,16 +92,16 @@ Markdown(summary_stats1.to_markdown(index = False))
 ![Distribution of Rented Bike Count](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=70%}
 
 
-![Average Rented Bike Count by Hour](../results/figures/hourly_rental_count.png){#fig-hourly-rental-count width=70%}
+<!-- ![Average Rented Bike Count by Hour](../results/figures/hourly_rental_count.png){#fig-hourly-rental-count width=70%} -->
 
 
-![Average Rented Bike Count by Season](../results/figures/season_rental_count.png){#fig-season-rental-count width=70%}
+<!-- ![Average Rented Bike Count by Season](../results/figures/season_rental_count.png){#fig-season-rental-count width=70%} -->
 
 ![Number of bike rentals at different temperatures for different seasons](../results/figures/season_temp_count.png){#fig-season-temp-count width=70%}
 
 ![Summary distribution of bike rentals between holidays and non holidays.](../results/figures/holiday_dist.png){#fig-holiday_dist width=70%}
 
-![Distribution of number of rented bikes.](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=70%}
+<!-- ![Distribution of number of rented bikes.](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=70%} -->
 
 ![Mean number of bikes being rented at different time of the day.](../results/figures/season_hourly.png){#fig-season-hourly width=70%}
 

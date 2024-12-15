@@ -12,6 +12,13 @@ from deepchecks.tabular import Dataset
 from deepchecks.checks import FeatureLabelCorrelation, FeatureFeatureCorrelation
 from scipy.stats import skew
 import click
+import warnings
+
+warnings.filterwarnings(
+    "ignore",
+    category=FutureWarning,
+    message=".*is_categorical_dtype is deprecated.*"
+)
 
 
 def read_zip(url, directory):
