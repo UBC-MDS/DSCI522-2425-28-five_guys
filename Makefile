@@ -1,11 +1,10 @@
 # Seoul Bike Sharing Demand Data Pipeline
 # date: 2024-12-14
-
+.PHONY: all clean
 
 # Runs the entire pipeline and generates both HTML and PDF reports
-all: data/processed/bike_train.csv data/processed/bike_test.csv results/models/bike_preprocessor.pickle \
-results/tables/missing_values.csv results/tables/summary_stats.csv results/figures/rented_bike_count.png results/figures/hourly_rental_count.png results/figures/season_rental_count.png results/figures/season_temp_count.png results/figures/holiday_dist.png results/figures/season_hourly.png results/figures/corr_chart.png\
-results/models/ridge_pipeline.pickle results/figures/prediction_error_ridge.png results/figures/prediction_error_tree.png results/rental_bike_prediction.html results/rental_bike_prediction.pdf
+all: results/rental_bike_prediction.html results/rental_bike_prediction.pdf
+
 # Downloads raw data from UCI and writes it to the data/raw directory
 data/raw/SeoulBikeData.csv: scripts/data_loading_n_validation.py
 	python scripts/data_loading_n_validation.py \
