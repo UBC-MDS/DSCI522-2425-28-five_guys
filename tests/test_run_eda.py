@@ -27,8 +27,7 @@ EXPECTED_CSV_FILES = [
 # Temporary directories for saving models
 temp_plot_directory = "results/figures/temp/"
 temp_table_directory = "results/tables/temp/"
-os.makedirs(temp_plot_directory, exist_ok=True)
-os.makedirs(temp_table_directory, exist_ok=True)
+
 
 # test data path
 processed_dataframe = "data/processed/bike_train.csv"
@@ -36,6 +35,8 @@ processed_dataframe = "data/processed/bike_train.csv"
 @pytest.fixture(scope="module")
 def setup_and_teardown():
     """Fixture to clean up the pipeline files after the tests"""
+    os.makedirs(temp_plot_directory, exist_ok=True)
+    os.makedirs(temp_table_directory, exist_ok=True)
     yield
     if os.path.exists(temp_plot_directory):
         for file in os.listdir(temp_plot_directory):
@@ -49,7 +50,7 @@ def setup_and_teardown():
 
 
 
-def test_run_eda_creates_png_files():
+def test_run_eda_creates_png_files(setup_and_teardown):
     """
     Test that run_eda generates all expected PNG files in the plot directory.
     """
@@ -68,7 +69,7 @@ def test_run_eda_creates_png_files():
         print(f"An unexpected error occurred while checking PNG files: {e}")
 
 
-def test_run_eda_creates_csv_files():
+def test_run_eda_creates_csv_files(setup_and_teardown):
     """
     Test that run_eda generates all expected CSV files in the table directory.
     """
@@ -88,7 +89,7 @@ def test_run_eda_creates_csv_files():
 
 
 
-def test_non_empty_csv_files():
+def test_non_empty_csv_files(setup_and_teardown):
     """
     Test that run_eda generates all expected CSV files and ensures none of them are empty (size = 0).
     """
@@ -116,7 +117,7 @@ def test_non_empty_csv_files():
         print(f"An unexpected error occurred while checking for non-empty CSV files: {e}")
         raise  # re-raise the exception so the test fails
 
-def test_empty_png_files():
+def test_empty_png_files(setup_and_teardown):
     """
     Test that run_eda generates all expected PNG files and ensures none of them are 0 in size.
     """
