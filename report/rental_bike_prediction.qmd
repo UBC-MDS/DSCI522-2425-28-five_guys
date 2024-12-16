@@ -89,10 +89,11 @@ Markdown(summary_stats1.to_markdown(index = False))
 ```
 
 
-![Distribution of Rented Bike Count](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=70%}
+<!-- ![Distribution of Rented Bike Count](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=70%} -->
 
+The chart in @fig-hourly-rental-count below shows the distribution of bike rentals across different hours of the day. It can be seen that there are two peak periods, signifying rush hour around 9 AM when people are going to work or school and there is a greater peak in the evening around 7 PM when most people return home after their daily engagements.
 
-<!-- ![Average Rented Bike Count by Hour](../results/figures/hourly_rental_count.png){#fig-hourly-rental-count width=70%} -->
+![Average Rented Bike Count by Hour](../results/figures/hourly_rental_count.png){#fig-hourly-rental-count width=70%}
 
 
 <!-- ![Average Rented Bike Count by Season](../results/figures/season_rental_count.png){#fig-season-rental-count width=70%} -->
