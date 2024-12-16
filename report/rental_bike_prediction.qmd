@@ -60,11 +60,11 @@ The Python programming language [@Python] and the following Python packages were
 
 # Results
 
-To identify which features may be useful to predict the number of bikes being used, we began with some exploratory data analysis (EDA) to better understand the dataset's general structure and characteristics. We found that there were no missing values in the dataset, eliminating the need for any imputation or data cleaning related to missing data. The descriptions from the EDA shows the dataset includes both numerical and categorical variables (e.g., “Seasons,” “Holiday”), some of which may interact non-linearly with the target variable. 
+To identify which features may be useful to predict the number of bikes being used, we began with some exploratory data analysis (EDA) to better understand the dataset's general structure and characteristics. We found that there were no missing values in the dataset, eliminating the need for any imputation or data cleaning related to missing data. The descriptions from the EDA shows the dataset includes both numerical and categorical variables (e.g., “Seasons,” “Holiday”), some of which may interact non-linearly with the target variable [@tbl-summary-stats]. 
 
-When plotting bike usage against features such as the hour of the day, seasonality, temperature, and holiday status, we noticed non-uniform patterns in their distribution with some categories having little overlap on each other. We observed that there is a spike in the number of bikes rented in summer seasons and also there is a spike in the morning and evening of each day observed. This suggests that these features might serve as strong predictors on bike usage. 
+When plotting bike usage against features such as the hour of the day, seasonality, temperature, and holiday status, we noticed non-uniform patterns in their distribution with some categories having little overlap on each other [@fig-season-hourly, @fig-season-temp-count, @fig-holiday_dist]. We observed that there is a spike in the number of bikes rented in summer seasons and also there is a spike in the morning and evening of each day observed [@fig-season-hourly]. This suggests that these features might serve as strong predictors on bike usage. 
 
-We also plotted a correlation matrix between all the features, we found a strong correlation between temperature and dew point temperature. Given that dew point temperature values closely mirror those of temperature, we decided to drop dew point temperature from the model. The remaining features showed relatively weaker correlations, so we chose not to remove them as they may offer valuable information for predicting bike demand.
+We also plotted a correlation matrix between all the features [@fig-corr_chart], we found a strong correlation between temperature and dew point temperature. Given that dew point temperature values closely mirror those of temperature, we decided to drop dew point temperature from the model. The remaining features showed relatively weaker correlations, so we chose not to remove them as they may offer valuable information for predicting bike demand.
 
 
 
@@ -91,7 +91,7 @@ Markdown(summary_stats1.to_markdown(index = False))
 
 <!-- ![Distribution of Rented Bike Count](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=70%} -->
 
-The chart @fig-season-hourly below shows the distribution of bike rentals across different hours of the day and seasons. It can be seen that bike rentals follow a bimodal distribution, peaking during typical commuting hours (8 AM and 5–6 PM), signifying rush hour when people are going to work or school and there is a greater peak in the evening when most people return home after their daily engagements. Summer experiences the highest rentals throughout the day, especially in the evening. This pattern highlights strong seasonal variation and the influence of daily commuting behavior on bike rentals.
+@fig-season-hourly below shows the distribution of bike rentals across different hours of the day and seasons. It can be seen that bike rentals follow a bimodal distribution, peaking during typical commuting hours (8 AM and 5–6 PM), signifying rush hour when people are going to work or school and there is a greater peak in the evening when most people return home after their daily engagements. Summer experiences the highest rentals throughout the day, especially in the evening. This pattern highlights strong seasonal variation and the influence of daily commuting behavior on bike rentals.
 
 ![Average number of bikes rented at different seasons and time of the day.](../results/figures/season_hourly.png){#fig-season-hourly width=70%}
 
@@ -104,7 +104,7 @@ The number of bike rentals increases with temperature, peaking in the Summer sea
 
 ![Number of bike rentals at different temperatures for different seasons](../results/figures/season_temp_count.png){#fig-season-temp-count width=70%}
 
-It can be observed from @fig-holiday_dist that during holidays, bike rentals are lower overall, and the spread is narrower with median rental count much lower (~200) when compared to Non-holidays median rental count (~500). Non-holidays see significantly higher bike rentals compared to holidays, with a wider distribution and higher median. This difference can be attributed to typical commuting behavior, where non-holidays (weekdays) experience more regular demand for bike rentals compared to holidays.
+It can be observed from @fig-holiday_dist that during holidays, bike rentals are lower overall, and the spread is narrower with median rental count much lower (~200) when compared to non-holidays median rental count (~500). Non-holidays see significantly higher bike rentals compared to holidays, with a wider distribution and higher median. This difference can be attributed to typical commuting behavior, where non-holidays (weekdays) experience more regular demand for bike rentals compared to holidays.
 
 ![Summary distribution of bike rentals between holidays and non holidays.](../results/figures/holiday_dist.png){#fig-holiday_dist width=70%}
 
