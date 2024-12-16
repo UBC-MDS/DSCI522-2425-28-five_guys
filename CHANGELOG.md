@@ -4,7 +4,7 @@
 
 ### Milestone 1 Feedback
 
-Feedback from Milestome 1 were:
+Feedback from Milestone 1 were:
 - Reorganize the project folder structure, specifically analysis notebook (.ipynb or .Qmd or *Rmd) should be in a sub-directory called something sensible, such as analysis, src, notebooks, docs, etc(
     Added it in the second week.
 )
@@ -23,7 +23,7 @@ All these feedback were raised in this [issue](https://github.com/UBC-MDS/DSCI52
 
 ### Milestone 2 Feedback
 
-Feedback from Milestome 2 was:
+Feedback from Milestone 2 was:
 - Fix Docker image tag because tag pulled from image is pinned to latest and this would potentially cause a similar issue as pinning it to latest in the main Dockerfile. We were unable to update the Docker image using the code provided by Daniel and Tiffany. We worked with Daniel to resolve the issue, but were unsuccessful. That's why we are manually updating the image tag.
 
 This feedback was raised in this [issue](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/issues/86) and was fixed with this [PR87](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/pull/87)
