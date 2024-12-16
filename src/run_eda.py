@@ -8,6 +8,7 @@ import altair_ally as aly
 def run_eda(processed_training_data, plot_to, table_to):
     """
     Perform Exploratory Data Analysis (EDA) on the provided processed training data.
+    This code is generated based on eda.py
 
     Parameters:
     ----------
