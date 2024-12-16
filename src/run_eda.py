@@ -18,6 +18,7 @@ def run_eda(processed_training_data, plot_to, table_to):
         Path to the directory where the plots will be saved.
     table_to : str
         Path to the directory where the summary tables will be saved.
+    temporary directory created for storing test csv files and png files
     
     Returns:
     -------
