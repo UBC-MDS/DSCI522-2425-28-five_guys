@@ -22,7 +22,7 @@ warnings.filterwarnings(
 
 
 def read_zip(url, directory):
-
+    # Tries to read in dataset from given url and save it in the data folder
     response = requests.get(url, stream=True)
     response.raise_for_status()  # Raise an error for bad status codes
 
@@ -43,7 +43,8 @@ def read_zip(url, directory):
 
 
 def validate_csv_schema(file_path):
-    # Try encoding 'ISO-8859-1' at this time, it works for all of us 
+    # Ensures that each column in the dataset adheres to the expected data type 
+    # and satisfies the specified range and validation criteria.
     try:
         df = pd.read_csv(file_path, encoding='ISO-8859-1')
     except Exception as e:
