@@ -91,7 +91,7 @@ Markdown(summary_stats1.to_markdown(index = False))
 
 <!-- ![Distribution of Rented Bike Count](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=70%} -->
 
-The chart in @fig-season-hourly below shows the distribution of bike rentals across different hours of the day and seasons. It can be seen that bike rentals follow a bimodal distribution, peaking during typical commuting hours (8 AM and 5–6 PM), signifying rush hour when people are going to work or school and there is a greater peak in the evening when most people return home after their daily engagements. Summer experiences the highest rentals throughout the day, especially in the evening. This pattern highlights strong seasonal variation and the influence of daily commuting behavior on bike rentals.
+The chart @fig-season-hourly below shows the distribution of bike rentals across different hours of the day and seasons. It can be seen that bike rentals follow a bimodal distribution, peaking during typical commuting hours (8 AM and 5–6 PM), signifying rush hour when people are going to work or school and there is a greater peak in the evening when most people return home after their daily engagements. Summer experiences the highest rentals throughout the day, especially in the evening. This pattern highlights strong seasonal variation and the influence of daily commuting behavior on bike rentals.
 
 ![Average number of bikes rented at different seasons and time of the day.](../results/figures/season_hourly.png){#fig-season-hourly width=70%}
 
