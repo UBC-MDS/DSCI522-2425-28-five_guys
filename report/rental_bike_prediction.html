@@ -177,7 +177,7 @@ window.Quarto = {
 <p>We also plotted a correlation matrix between all the features, we found a strong correlation between temperature and dew point temperature. Given that dew point temperature values closely mirror those of temperature, we decided to drop dew point temperature from the model. The remaining features showed relatively weaker correlations, so we chose not to remove them as they may offer valuable information for predicting bike demand.</p>
 <section id="exploratory-data-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h2>
-<p>After the train and test set split, we carried out a very comprehensive EDA and found that there were no missing values in the dataset, eliminating the need for any preprocessing, imputation or data cleaning related to missing data. Hence, we delved deeper into understanding the distribution of the training data set which we have the summary statistics in <a href="#tbl-summary-stats" class="quarto-xref">Table&nbsp;1</a>. <!-- ```{python}
+<p>After the train and test set split, we carried out a very comprehensive EDA and found that there were no missing values in the dataset, eliminating the need for any preprocessing, imputation or data cleaning related to missing data. Hence, we delved deeper into understanding the distribution of the training data set which we have the summary statistics in <a href="#tbl-summary-stats" class="quarto-xref">Table&nbsp;1</a> below followed by the distribution and correlation charts. <!-- ```{python}
 #| label: tbl-missing-values
 #| tbl-cap: Number of missing values in every column
 missing_values = pd.read_csv("../results/tables/missing_values.csv")
@@ -283,18 +283,21 @@ Table&nbsp;1: Summary statistics of key columns
 </figure>
 </div>
 </div>
-<div id="fig-rented-bike-count" class="quarto-float quarto-figure quarto-figure-center anchored">
+<!-- ![Distribution of Rented Bike Count](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=70%} -->
+<p>The chart <a href="#fig-season-hourly" class="quarto-xref">Figure&nbsp;1</a> below shows the distribution of bike rentals across different hours of the day and seasons. It can be seen that bike rentals follow a bimodal distribution, peaking during typical commuting hours (8 AM and 5–6 PM), signifying rush hour when people are going to work or school and there is a greater peak in the evening when most people return home after their daily engagements. Summer experiences the highest rentals throughout the day, especially in the evening. This pattern highlights strong seasonal variation and the influence of daily commuting behavior on bike rentals.</p>
+<div id="fig-season-hourly" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-rented-bike-count-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../results/figures/rented_bike_count.png" class="img-fluid figure-img" style="width:70.0%">
+<div aria-describedby="fig-season-hourly-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../results/figures/season_hourly.png" class="img-fluid figure-img" style="width:70.0%">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rented-bike-count-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Distribution of Rented Bike Count
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-season-hourly-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Average number of bikes rented at different seasons and time of the day.
 </figcaption>
 </figure>
 </div>
 <!-- ![Average Rented Bike Count by Hour](../results/figures/hourly_rental_count.png){#fig-hourly-rental-count width=70%} -->
 <!-- ![Average Rented Bike Count by Season](../results/figures/season_rental_count.png){#fig-season-rental-count width=70%} -->
+<p>The number of bike rentals increases with temperature, peaking in the Summer season as seen in <a href="#fig-season-temp-count" class="quarto-xref">Figure&nbsp;2</a> below. Conversely, the Winter season shows low rentals, especially at sub-zero temperatures. Spring and Autumn show moderate rental activity, corresponding to mild temperatures. This plot highlights clear seasonal variation in bike rentals influenced by temperature.</p>
 <div id="fig-season-temp-count" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-season-temp-count-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -305,6 +308,7 @@ Figure&nbsp;2: Number of bike rentals at different temperatures for different se
 </figcaption>
 </figure>
 </div>
+<p>It can be observed from <a href="#fig-holiday_dist" class="quarto-xref">Figure&nbsp;3</a> that during holidays, bike rentals are lower overall, and the spread is narrower with median rental count much lower (~200) when compared to Non-holidays median rental count (~500). Non-holidays see significantly higher bike rentals compared to holidays, with a wider distribution and higher median. This difference can be attributed to typical commuting behavior, where non-holidays (weekdays) experience more regular demand for bike rentals compared to holidays.</p>
 <div id="fig-holiday_dist" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-holiday_dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -316,23 +320,14 @@ Figure&nbsp;3: Summary distribution of bike rentals between holidays and non hol
 </figure>
 </div>
 <!-- ![Distribution of number of rented bikes.](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=70%} -->
-<div id="fig-season-hourly" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-season-hourly-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../results/figures/season_hourly.png" class="img-fluid figure-img" style="width:70.0%">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-season-hourly-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Mean number of bikes being rented at different time of the day.
-</figcaption>
-</figure>
-</div>
+<p>This <a href="#fig-corr_chart" class="quarto-xref">Figure&nbsp;4</a> compares Pearson correlations (left) and Spearman correlations (right) among multiple variables, including Rented Bike Count, weather conditions, and time-related features. The Spearman correlation in the <a href="#fig-corr_chart" class="quarto-xref">Figure&nbsp;4</a> captures additional non-linear relationships between the features, while Pearson emphasizes linear trends. For example, temperature shows a strong positive correlation with Rented Bike Count in both Pearson and Spearman analyses while negative correlation in humidity, suggests higher humidity reduces bike rentals. These insights highlight the importance of weather conditions and time in predicting bike rental demand.</p>
 <div id="fig-corr_chart" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-corr_chart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="../results/figures/corr_chart.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-corr_chart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Correlation plots for the different features in the training data set.
+Figure&nbsp;4: Correlation plots for the different features in the training data set.
 </figcaption>
 </figure>
 </div>
@@ -347,7 +342,7 @@ Figure&nbsp;5: Correlation plots for the different features in the training data
 <img src="../results/figures/prediction_error_tree.png" class="img-fluid figure-img" style="width:70.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-error-tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: Predicted bike usage by Decision Tree model vs actual bike usage from test data set.
+Figure&nbsp;5: Predicted bike usage by Decision Tree model vs actual bike usage from test data set.
 </figcaption>
 </figure>
 </div>
@@ -357,11 +352,11 @@ Figure&nbsp;6: Predicted bike usage by Decision Tree model vs actual bike usage 
 <img src="../results/figures/prediction_error_ridge.png" class="img-fluid figure-img" style="width:70.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-error-ridge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7: Predicted bike usage by Regression model vs actual bike usage from test data set.
+Figure&nbsp;6: Predicted bike usage by Regression model vs actual bike usage from test data set.
 </figcaption>
 </figure>
 </div>
-<p>The decision tree regression model did moderately well on the test data, with an <span class="math inline">\(R^2\)</span> of 0.8. Compared to the ridge regression model, it only obtained a <span class="math inline">\(R^2\)</span> of 0.68. This can also be seen by the scatter plot of the predicted bike usage versus the actual bike usage data in <a href="#fig-error-tree" class="quarto-xref">Figure&nbsp;6</a>. The ridge regression model has a wide spread of prediction for the entire range of bike usage as seen on <a href="#fig-error-ridge" class="quarto-xref">Figure&nbsp;7</a>, yet the decision tree regression model seems to be predicting the lower numbers well, albeit still struggling in predicting higher bike usage with the same precision. Despite this, since the bulk of the data lies within a lower range and this is the range where the model performs well, the model should still be able to provide a reasonably accurate predictions for most of the observations.</p>
+<p>The decision tree regression model did moderately well on the test data, with an <span class="math inline">\(R^2\)</span> of 0.8. Compared to the ridge regression model, it only obtained a <span class="math inline">\(R^2\)</span> of 0.68. This can also be seen by the scatter plot of the predicted bike usage versus the actual bike usage data in <a href="#fig-error-tree" class="quarto-xref">Figure&nbsp;5</a>. The ridge regression model has a wide spread of prediction for the entire range of bike usage as seen on <a href="#fig-error-ridge" class="quarto-xref">Figure&nbsp;6</a>, yet the decision tree regression model seems to be predicting the lower numbers well, albeit still struggling in predicting higher bike usage with the same precision. Despite this, since the bulk of the data lies within a lower range and this is the range where the model performs well, the model should still be able to provide a reasonably accurate predictions for most of the observations.</p>
 </section>
 </section>
 <section id="discussion" class="level1">
