@@ -34,15 +34,15 @@ accuracy_ridge, accuracy_tree = f"""{round(test_scores["accuracy_ridge"].values[
 
 # Summary
 
-In this analysis, we developed two regression models using the decision tree algorithm and the ridge regression algorithm to compare their ability to predict the number of bikes being rented out from a bike share program based on the weather conditions of the hour and general information about the day. After training the models, the models' performances were evaluated on an unseen data set, where the decision tree algorithm achieved a $R^2$ of `{python} accuracy_tree_raw` and the ridge regression algorithm obtained a $R^2$ of `{python} accuracy_ridge_raw`. The results indicated that the decision tree regression model was able to better capture the key factors influencing the number of bike rented within a reasonable range of accuracy. This makes it a practical tool for forecasting bike demand. By utilizing weather conditions and temporal features, this model can assist bike-sharing programs in optimizing resource allocation, ensuring bikes are available when needed, and improving overall service efficiency. 
+In this analysis, we developed two regression models - one using the decision tree algorithm and the other using the ridge regression algorithm - to compare their ability in predicting the number of bikes rented out from a bike share program depending on hourly weather conditions and general information about the day. After training the models, each model's performance was evaluated on an unseen data set, where the decision tree algorithm achieved a $R^2$ of `{python} accuracy_tree_raw` and the ridge regression algorithm obtained a $R^2$ of `{python} accuracy_ridge_raw`. These results indicate that the decision tree regression model was able to better capture the key factors influencing the number of bike rented within a reasonable range of accuracy. By utilizing weather conditions and temporal features, the model can assist bike-sharing programs in optimizing resource allocation, ensuring bikes are available when needed, and improving overall service efficiency. This makes it a practical tool for forecasting bike demand.
 
 # Introduction
 
-Over the past two decades, a growing number of countries worldwide have introduced bike-sharing programs as an integral part of their urban transportation systems [@shaheen2012bikesharing]. These initiatives are often designed to address the “last mile” problem – a common challenge in public transit to get passengers from a transportation hub, like train stations and bus stops, to their final destination. By providing a sustainable, accessible, and cost-effective mode of transportation for short trips, bike-share programs have become a popular solution to close this gap [@shaheen2012bikesharing].  
+Over the past two decades, a growing number of countries worldwide have introduced bike-sharing programs as an integral part of their urban transportation systems [@shaheen2012bikesharing]. These initiatives are often designed to address the “last mile” problem – a common challenge in public transit to get passengers from a transportation hub, such as a train station or bus stop, to their final destination. By providing a sustainable, accessible, and cost-effective mode of transportation for short trips, bike-share programs have become a popular solution to close this gap [@shaheen2012bikesharing].  
 
 The demand and usage of bike-share programs are known to be heavily influenced by the weather conditions [@eren2020review]. Factors such as temperature, precipitation, humidity, and wind speed all have an effect on the number of bikes being used at any given time. Understanding these relationships is crucial for the effective management of bike-share systems.
 
-In this study, we explore whether a machine learning algorithm can predict the usage of bike-share program. It is important to accurately predict usage of the bikes as it gives organizers the ability to plan ahead and make sure there is a stable supply of bikes to match the fluctuating demands. This ensures an efficient allocation of resources and ultimately improve the overall performance of the bike-share programs.
+In this study, we explore whether a machine learning algorithm can predict the usage of a bike-share program. It is important to accurately predict the usage of bikes to ensure a stable supply of bikes to match the fluctuating demands. The efficient allocation of resources is key to the overall performance of the bike-share programs.
 
 {{< pagebreak >}}
 
@@ -50,7 +50,7 @@ In this study, we explore whether a machine learning algorithm can predict the u
 
 ## Data
 
-The data set used in this project is the Seoul bike sharing demand data set created by Dr Sathishkumar V.E., Dr Jangwoo Park, and Dr Yongyun Cho from Sunchon National University [@sathishkumar2020using]. It was sourced from the UCI Machine Learning Repository [@dua2017uci] and can be found [here](https://archive.ics.uci.edu/dataset/560/seoul+bike+sharing+demand). Each row in the data set represents the number of bikes being rented at a specific hour of a day, along with corresponding weather conditions (e.g. temperature, humidity, and rainfall), whether the day was a holiday, and if the bike share program was functioning that day.
+The data set used in this project is the Seoul bike sharing demand data set created by Dr Sathishkumar V.E., Dr Jangwoo Park, and Dr Yongyun Cho from Sunchon National University [@sathishkumar2020using]. It was sourced from the UCI Machine Learning Repository [@dua2017uci] and can be found [here](https://archive.ics.uci.edu/dataset/560/seoul+bike+sharing+demand). Each row in the data set represents the number of bikes being rented at a specific hour of day, along with the corresponding weather conditions (e.g. temperature, humidity, and rainfall), whether the day was a holiday, and if the bike share program was oeprating that day.
 
 ## Analysis
 
@@ -60,18 +60,18 @@ The Python programming language [@Python] and the following Python packages were
 
 # Results
 
-To identify which features may be useful to predict the number of bikes being used, we began with some exploratory data analysis (EDA) to better understand the dataset's general structure and characteristics. We found that there were no missing values in the dataset, eliminating the need for any imputation or data cleaning related to missing data. The descriptions from the EDA shows the dataset includes both numerical and categorical variables (e.g., “Seasons,” “Holiday”), some of which may interact non-linearly with the target variable [@tbl-summary-stats]. 
+To identify which features may be useful to predict the number of bikes being used, we began with some exploratory data analysis (EDA) to better understand the dataset's general structure and characteristics. We found that there were no missing values in the dataset, eliminating the need for any imputation or data cleaning related to missing data. The descriptions from the EDA shows the dataset includes both numerical and categorical variables (e.g., “Seasons,” “Holiday”), some of which may interact non-linearly with the target variable (@tbl-summary-stats). 
 
-When plotting bike usage against features such as the hour of the day, seasonality, temperature, and holiday status, we noticed non-uniform patterns in their distribution with some categories having little overlap on each other [@fig-season-hourly, @fig-season-temp-count, @fig-holiday_dist]. We observed that there is a spike in the number of bikes rented in summer seasons and also there is a spike in the morning and evening of each day observed [@fig-season-hourly]. This suggests that these features might serve as strong predictors on bike usage. 
+When plotting bike usage against features such as the hour of the day, seasonality, temperature, and holiday status, we noticed non-uniform patterns in their distribution with some categories having little overlap on each other (@fig-season-hourly, @fig-season-temp-count, @fig-holiday_dist). We observed that there is a spike in the number of bikes rented in summer seasons and also there is a spike in the morning and evening of each day observed (@fig-season-hourly). This suggests that these features might serve as strong predictors on bike usage. 
 
-We also plotted a correlation matrix between all the features [@fig-corr_chart], we found a strong correlation between temperature and dew point temperature. Given that dew point temperature values closely mirror those of temperature, we decided to drop dew point temperature from the model. The remaining features showed relatively weaker correlations, so we chose not to remove them as they may offer valuable information for predicting bike demand.
+We also plotted a correlation matrix between all the features (@fig-corr_chart), we found a strong correlation between temperature and dew point temperature. Given that dew point temperature values closely mirror those of temperature, we decided to drop dew point temperature from the model. The remaining features showed relatively weaker correlations, so we chose not to remove them as they may offer valuable information for predicting bike demand.
 
 
 
 
 ## Exploratory Data Analysis
 
-After the train and test set split, we carried out a very comprehensive EDA and found that there were no missing values in the dataset, eliminating the need for any preprocessing, imputation or data cleaning related to missing data. Hence, we delved deeper into understanding the distribution of the training data set which we have the summary statistics in @tbl-summary-stats below followed by the distribution and correlation charts.
+After the train and test set split, we carried out a very comprehensive EDA and found that there were no missing values in the dataset, eliminating the need for any preprocessing, imputation or data cleaning related to missing data. Hence, we delved deeper into understanding the distribution of the training data set which we have the summary statistics in (@tbl-summary-stats) below followed by the distribution and correlation charts.
 <!-- ```{python}
 #| label: tbl-missing-values
 #| tbl-cap: Number of missing values in every column
@@ -110,7 +110,7 @@ It can be observed from @fig-holiday_dist that during holidays, bike rentals are
 
 <!-- ![Distribution of number of rented bikes.](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=70%} -->
 
-This @fig-corr_chart compares Pearson correlations (left) and Spearman correlations (right) among multiple variables, including Rented Bike Count, weather conditions, and time-related features. The Spearman correlation in the @fig-corr_chart captures additional non-linear relationships between the features, while Pearson emphasizes linear trends. For example, temperature shows a strong positive correlation with Rented Bike Count in both Pearson and Spearman analyses while negative correlation in humidity, suggests higher humidity reduces bike rentals. These insights highlight the importance of weather conditions and time in predicting bike rental demand.
+@fig-corr_chart compares Pearson correlations (left) and Spearman correlations (right) among multiple variables, including Rented Bike Count, weather conditions, and time-related features. The Spearman correlation captures additional non-linear relationships between the features, while Pearson emphasizes linear trends. For example, temperature shows a strong positive correlation with Rented Bike Count in both Pearson and Spearman analyses while negative correlation in humidity, suggests higher humidity reduces bike rentals. These insights highlight the importance of weather conditions and time in predicting bike rental demand.
 
 ![Correlation plots for the different features in the training data set.](../results/figures/corr_chart.png){#fig-corr_chart}
 
