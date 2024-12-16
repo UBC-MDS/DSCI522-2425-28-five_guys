@@ -1,5 +1,3 @@
-# fit_bike_usage_regressor.py
-# date: 2024-12-05
 import os
 import numpy as np
 import pandas as pd
