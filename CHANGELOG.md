@@ -24,3 +24,12 @@ This feedback was raised in this [issue](https://github.com/UBC-MDS/DSCI522-2425
 
 ### [Peer Review Feedback](https://github.com/UBC-MDS/data-analysis-review-2024/issues/7)
 
+In summary, the peer review feedbacks are as followed:
+- Add cross-referencing hyperlinks for figures and tables 
+- Add brief description of each figure and table to explain their relevance
+- Reduce number of plots by focusing on the most relevant ones and summarizing less critical ones
+- Correct grammatical errors for a consistent and professional tone
+- Correct incorrect comments in scripts
+- Rename LICENSE file to LICENSE.md for better readability (After consulting with the instructor, it was determined that this comment was irrelevant and therefore not addressed)
+
+These feedbacks were raised in this [issue](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/issues/92) and was fixed with these sets of PR: [PR1](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/pull/105), [PR2](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/pull/103), [PR3](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/pull/104), [PR4](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/pull/93)
