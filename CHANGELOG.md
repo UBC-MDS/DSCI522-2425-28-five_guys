@@ -30,7 +30,6 @@ This feedback was raised in this [issue](https://github.com/UBC-MDS/DSCI522-2425
 
 
 ### [Peer Review Feedback](https://github.com/UBC-MDS/data-analysis-review-2024/issues/7)
-[Peer Review Issue](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/issues/92)
 
 In summary, the peer review feedbacks are as followed:
 - Add cross-referencing hyperlinks for figures and tables 
@@ -40,4 +39,4 @@ In summary, the peer review feedbacks are as followed:
 - Correct incorrect comments in scripts
 - Rename LICENSE file to LICENSE.md for better readability (After consulting with the instructor, it was determined that this comment was irrelevant and therefore not addressed)
 
-These feedbacks were raised in this [issue](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/issues/92) and was fixed with these sets of PR: [PR1](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/pull/105), [PR2](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/pull/103), [PR3](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/pull/104), [PR4](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/pull/93)
+These feedbacks were raised in this [issue](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/issues/92) and was fixed with these sets of PR: [PR93](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/pull/93), [PR103](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/pull/103), [PR104](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/pull/104), [PR105](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/pull/105), [PR110](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/pull/110), [PR112](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/pull/112), [PR113](https://github.com/UBC-MDS/DSCI522-2425-28-rental-bike-prediction/pull/113)
