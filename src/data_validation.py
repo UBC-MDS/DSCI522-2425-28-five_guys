@@ -66,10 +66,12 @@ def data_validation(bike_dataframe):
             "Functioning Day": pa.Column(str, pa.Check.isin(["Yes", "No"]))
         },
         checks=[
-            pa.Check(lambda df: ~df.duplicated().any(), error="Duplicate rows found."),
-            pa.Check(lambda df: ~(df.isna().all(axis=1)).any(), error="Empty rows found.")
+            pa.Check(lambda bike_dataframe: ~bike_dataframe.duplicated().any(), error="Duplicate rows found."),
+            pa.Check(lambda bike_dataframe: ~(bike_dataframe.isna().all(axis=1)).any(), error="Empty rows found.")
         ]
     )
 
     # Validate schema
-    df = schema.validate(df, lazy=True).drop_duplicates().dropna(how="all")
+    bike_dataframe = schema.validate(bike_dataframe, lazy=True).drop_duplicates().dropna(how="all")
+
+    return bike_dataframe
