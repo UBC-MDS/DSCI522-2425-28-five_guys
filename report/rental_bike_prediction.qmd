@@ -71,7 +71,7 @@ We also plotted a correlation matrix between all the features, we found a strong
 
 ## Exploratory Data Analysis
 
-After the train and test set split, we carried out a very comprehensive EDA and found that there were no missing values in the dataset, eliminating the need for any preprocessing, imputation or data cleaning related to missing data. Hence, we delved deeper into understanding the distribution of the training data set which we have the summary statistics in @tbl-summary-stats.
+After the train and test set split, we carried out a very comprehensive EDA and found that there were no missing values in the dataset, eliminating the need for any preprocessing, imputation or data cleaning related to missing data. Hence, we delved deeper into understanding the distribution of the training data set which we have the summary statistics in @tbl-summary-stats below followed by the distribution and correlation charts.
 <!-- ```{python}
 #| label: tbl-missing-values
 #| tbl-cap: Number of missing values in every column
@@ -91,20 +91,26 @@ Markdown(summary_stats1.to_markdown(index = False))
 
 <!-- ![Distribution of Rented Bike Count](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=70%} -->
 
-The chart in @fig-hourly-rental-count below shows the distribution of bike rentals across different hours of the day. It can be seen that there are two peak periods, signifying rush hour around 9 AM when people are going to work or school and there is a greater peak in the evening around 7 PM when most people return home after their daily engagements.
+The chart in @fig-season-hourly below shows the distribution of bike rentals across different hours of the day and seasons. It can be seen that bike rentals follow a bimodal distribution, peaking during typical commuting hours (8 AM and 5–6 PM), signifying rush hour when people are going to work or school and there is a greater peak in the evening when most people return home after their daily engagements. Summer experiences the highest rentals throughout the day, especially in the evening. This pattern highlights strong seasonal variation and the influence of daily commuting behavior on bike rentals.
 
-![Average Rented Bike Count by Hour](../results/figures/hourly_rental_count.png){#fig-hourly-rental-count width=70%}
+![Average number of bikes rented at different seasons and time of the day.](../results/figures/season_hourly.png){#fig-season-hourly width=70%}
+
+<!-- ![Average Rented Bike Count by Hour](../results/figures/hourly_rental_count.png){#fig-hourly-rental-count width=70%} -->
 
 
 <!-- ![Average Rented Bike Count by Season](../results/figures/season_rental_count.png){#fig-season-rental-count width=70%} -->
 
+The number of bike rentals increases with temperature, peaking in the Summer season as seen in @fig-season-temp-count below. Conversely, the Winter season shows low rentals, especially at sub-zero temperatures. Spring and Autumn show moderate rental activity, corresponding to mild temperatures. This plot highlights clear seasonal variation in bike rentals influenced by temperature.
+
 ![Number of bike rentals at different temperatures for different seasons](../results/figures/season_temp_count.png){#fig-season-temp-count width=70%}
+
+It can be observed from @fig-holiday_dist that during holidays, bike rentals are lower overall, and the spread is narrower with median rental count much lower (~200) when compared to Non-holidays median rental count (~500). Non-holidays see significantly higher bike rentals compared to holidays, with a wider distribution and higher median. This difference can be attributed to typical commuting behavior, where non-holidays (weekdays) experience more regular demand for bike rentals compared to holidays.
 
 ![Summary distribution of bike rentals between holidays and non holidays.](../results/figures/holiday_dist.png){#fig-holiday_dist width=70%}
 
 <!-- ![Distribution of number of rented bikes.](../results/figures/rented_bike_count.png){#fig-rented-bike-count width=70%} -->
 
-![Mean number of bikes being rented at different time of the day.](../results/figures/season_hourly.png){#fig-season-hourly width=70%}
+This @fig-corr_chart compares Pearson correlations (left) and Spearman correlations (right) among multiple variables, including Rented Bike Count, weather conditions, and time-related features. The Spearman correlation in the @fig-corr_chart captures additional non-linear relationships between the features, while Pearson emphasizes linear trends. For example, temperature shows a strong positive correlation with Rented Bike Count in both Pearson and Spearman analyses while negative correlation in humidity, suggests higher humidity reduces bike rentals. These insights highlight the importance of weather conditions and time in predicting bike rental demand.
 
 ![Correlation plots for the different features in the training data set.](../results/figures/corr_chart.png){#fig-corr_chart}
 
