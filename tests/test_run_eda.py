@@ -6,8 +6,8 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from src.run_eda import run_eda
 from pathlib import Path
-
-# List of expected test PNG plot filenames
+# four tests created to check eda 1. format check for png files 2. format check for csv files 3. check sizes of png files 4. check sizes of csv files 
+# List of expected test PNG plot filenames 
 EXPECTED_PNG_FILES = [
     "test_rented_bike_count.png",
     "test_hourly_rental_count.png",
