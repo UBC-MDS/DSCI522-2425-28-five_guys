@@ -93,7 +93,7 @@ where you launched the container, and then type `docker compose rm`
 
 1. Add the dependency to the `environment.yml` file on a new branch.
 
-2. Run `conda-lock -k explicit --file environment.yml -p linux-64` to update the `conda-linux-64.lock` file.
+2. Run `conda-lock -k explicit --file environments/environment.yml -p linux-64` to update the `conda-linux-64.lock` file.
 
 2. Re-build the Docker image locally to ensure it builds and runs properly.
 
