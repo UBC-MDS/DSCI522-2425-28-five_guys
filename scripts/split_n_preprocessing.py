@@ -65,7 +65,7 @@ def main(raw_data, data_to, preprocessor_to, seed):
     # Define column transformer for preprocessing
     bike_preprocessor = make_column_transformer(
         # One-hot encode Hour, Seasons, Year, Month and Day
-        (OneHotEncoder(sparse_output=False), ['Hour', 'Seasons', 'Year', 'Month', 'Day']),
+        (OneHotEncoder(sparse_output=False, handle_unknown='ignore'), ['Hour', 'Seasons', 'Year', 'Month', 'Day']),
         ("drop", ['Dew point temperature']),
         remainder= StandardScaler()  # Leave other columns as they are
     )

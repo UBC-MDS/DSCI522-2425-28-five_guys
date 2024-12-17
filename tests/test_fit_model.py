@@ -12,7 +12,7 @@ TEMP_PIPELINE_DIR = "results/models/temp/"
 os.makedirs(TEMP_PIPELINE_DIR, exist_ok=True)
 
 # Test data paths
-TEMP_TRAINING_DATA = "data/processed/bike_train.csv"
+TEMP_TRAINING_DATA = "data/processed/test_sample/sample.csv"
 PREPROCESSOR_PATH = "results/models/bike_preprocessor.pickle"
 
 
