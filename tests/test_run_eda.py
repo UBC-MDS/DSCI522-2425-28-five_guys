@@ -27,22 +27,20 @@ EXPECTED_CSV_FILES = [
 # Temporary directories for saving models
 temp_plot_directory = "results/figures/temp/"
 temp_table_directory = "results/tables/temp/"
-
+"""Fixture to clean up the pipeline files after the tests"""
+os.makedirs(temp_plot_directory, exist_ok=True)
+os.makedirs(temp_table_directory, exist_ok=True)
 
 # test data path
 processed_dataframe = "data/processed/bike_train.csv"
 
 @pytest.fixture(scope="module")
 def setup_and_teardown():
-    """Fixture to clean up the pipeline files after the tests"""
-    os.makedirs(temp_plot_directory, exist_ok=True)
-    os.makedirs(temp_table_directory, exist_ok=True)
     yield
     if os.path.exists(temp_plot_directory):
         for file in os.listdir(temp_plot_directory):
             os.remove(os.path.join(temp_plot_directory, file))
         os.rmdir(temp_plot_directory)
-
     if os.path.exists(temp_table_directory):
         for file in os.listdir(temp_table_directory):
             os.remove(os.path.join(temp_table_directory, file))
